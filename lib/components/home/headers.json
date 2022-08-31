@@ -1,0 +1,12 @@
+[
+    {
+      "id": "1",
+      "key": ["ticker"],
+      "name": "Ticker"
+    },
+    {
+      "id": "2",
+      "key": ["name"],
+      "name": "Full Name"
+    }
+  ]

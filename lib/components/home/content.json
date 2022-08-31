@@ -1,0 +1,52 @@
+[
+  {
+    "_id": "1",
+    "Ticker": "AAPL",
+    "Full_Name": "Apple"
+  },
+  {
+    "_id": "2",
+    "Ticker": " NYSE",
+    "Full_Name": "New York Stock Exchange"
+  },
+  {
+    "_id": "3",
+    "Ticker": "SHC",
+    "Full_Name": "SkyHighCorp"
+  },
+  {
+    "_id": "4",
+    "Ticker": "LDI",
+    "Full_Name": "LowDownInc"
+  },
+  {
+    "_id": "5",
+    "Ticker": "VNI",
+    "Full_Name": "ValueNowInc"
+  },
+  {
+    "_id": "6",
+    "Ticker": "VNI",
+    "Full_Name": "ValueNowInc"
+  },
+  {
+    "_id": "7",
+    "Ticker": "VNI",
+    "Full_Name": "ValueNowInc"
+  },
+  {
+    "_id": "8",
+    "Ticker": "SHC",
+    "Full_Name": "SkyHighCorp"
+  },
+  {
+    "_id": "9",
+    "Ticker": "SHC",
+    "Full_Name": "SkyHighCorp"
+  },
+  {
+    "_id": "10",
+    "Ticker": "SHC",
+    "Full_Name": "SkyHighCorp"
+  }
+]
