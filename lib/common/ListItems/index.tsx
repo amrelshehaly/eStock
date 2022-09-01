@@ -4,6 +4,9 @@ import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import useStyles from "./styles";
 import { useAppState, useActions } from "@lib/store";
 
+
+
+
 import {
   Box,
   Button,
@@ -16,44 +19,49 @@ interface DataList {
   results: any[];
   LoadMore: () => void;
   ClearArray: () => void;
-  setNextPage: () => void
+  setNextPage: () => void;
+  setPrevPage: () => void;
 }
 
-const ListItems: FC<DataList> = ({ results, LoadMore, ClearArray, setNextPage }) => {
-  const { memory } = useAppState();
-  console.log("this is memory", memory);
-  const [hasMore, setHasMore] = useState<boolean>(true);
+const ListItems: FC<DataList> = ({
+  results,
+  LoadMore,
+  ClearArray,
+  setNextPage,
+  setPrevPage,
+}) => {
+
   const classes = useStyles();
-//   const [array, setArray] = useState<any[]>([]);
+
 
   const fetchMoreData = () => {
     if (results.length == 16) {
-      setHasMore(false);
-    //   console.log("its 16 5alas");
+        console.log("the arra is 16 in length")
     } else {
-        console.log("its loading more")
+      console.log("its loading more");
         LoadMore();
     }
   };
 
   const handleNextPage = async () => {
     // setArray([]);
-    ClearArray()
-    setNextPage()
-    setHasMore(true);
+    // ClearArray();
+    setNextPage();
+    // setHasMore(true);
   };
 
-//   useEffect(() => {
-//     setArray((prev) => prev.concat(results));
-//   }, [results]);
+  const handlePreviousPage = async () => {
+    console.log("clicked")
+    setPrevPage();
+  };
 
   return (
     <Box>
       <InfiniteScroll
         dataLength={results.length}
         next={fetchMoreData}
-        hasMore={hasMore}
-        loader={<h4>Loading...</h4>}
+        hasMore={true}
+        loader={<h4 style={{color:'gold', fontSize:'30px'}}>Loading...</h4>}
         endMessage={
           <div style={{ color: "red" }}>yay , you finished loading </div>
         }
@@ -72,11 +80,11 @@ const ListItems: FC<DataList> = ({ results, LoadMore, ClearArray, setNextPage })
           </div>
         ))}
       </InfiniteScroll>
-      {!hasMore && (
+      {(results.length == 16) && (
         <Box alignContent="center" className={classes.container}>
           <Box className={classes.prevBox}>
-            <Button variant="contained">
-              <ArrowBack />
+            <Button onClick={handlePreviousPage} variant="contained">
+              <ArrowBack  />
               Previous
             </Button>
           </Box>

@@ -9,20 +9,18 @@ import ListItems from '../../common/ListItems'
 
 const DashboardModule = () => {
   const classes = useStyle()
-  const { count, next_url, results } = useAppState()
-  const { onInitializeOvermind, LoadMoreStocks, ClearResults, NextPage } = useActions()
+  const { count, next_url, results, currentPage } = useAppState()
+  const { onInitializeOvermind, LoadMoreStocks, ClearResults, NextPage, PrevPage } = useActions()
   const [search, setSearch] = useState<string>()
 
-  const LoadMore = async () => {
-    LoadMoreStocks()
-  }
 
   return (
     <Container className={classes.containers}>
-      <h1 style={{ color: 'white' }}>{count}</h1>
+      <h1 style={{ color: 'white' }}>maxpages:{count}</h1>
+      <p style={{ color: 'white' }}>currentPage:{currentPage}</p>
       <SearchBar setSearch={setSearch} />
       <Box style={{ width: '100%' }}>
-        <ListItems results={results} LoadMore={LoadMore} ClearArray={ClearResults} setNextPage={NextPage} />
+        <ListItems results={results} LoadMore={LoadMoreStocks} ClearArray={ClearResults} setNextPage={NextPage} setPrevPage={PrevPage} />
         {/* <SimpleTable headers={headers} data={results} /> */}
       </Box>
     </Container>

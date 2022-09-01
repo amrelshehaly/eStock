@@ -22,7 +22,9 @@ class MyApp extends App {
     const mutations = props.pageProps.mutations || [];
 
     if (typeof window !== "undefined") {
-      this.overmind = createOvermind(storeConfig);
+      this.overmind = createOvermind(storeConfig,{
+        devtools: true // defaults to 'localhost:3031'
+      });
       this.overmind.actions.changePage(mutations);
     } else {
       this.overmind = createOvermindSSR(storeConfig);
