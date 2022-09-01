@@ -12,8 +12,8 @@ export const getStaticProps: GetStaticProps = async () => {
 
   await overmind.actions.onInitializeOvermind().then((res) => {
     // console.log('the result',res.data.results)
-    overmind.state.count = res.data.count;
     overmind.state.results = res.data.results;
+    overmind.state.next_url = res.data.next_url;
   });
 
   // overmind.state.results = response.
