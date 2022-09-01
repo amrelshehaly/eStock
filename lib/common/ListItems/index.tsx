@@ -1,18 +1,13 @@
-import React, { useState, FC, useEffect, useRef } from "react";
+import React, { FC } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import useStyles from "./styles";
-import { useAppState, useActions } from "@lib/store";
-
-
+import {useAppState} from "@lib/store"
 
 
 import {
   Box,
   Button,
-  Typography,
-  useTheme,
-  useMediaQuery,
 } from "@mui/material";
 
 interface DataList {
@@ -31,8 +26,10 @@ const ListItems: FC<DataList> = ({
   setPrevPage,
 }) => {
 
-  const classes = useStyles();
+    const {memory} = useAppState()
+    console.log('this is the memory',memory)
 
+  const classes = useStyles();
 
   const fetchMoreData = () => {
     if (results.length == 16) {
@@ -47,6 +44,8 @@ const ListItems: FC<DataList> = ({
     // setArray([]);
     // ClearArray();
     setNextPage();
+    // scroll.scrollToTop()
+    window.scrollTo(0, 0)
     // setHasMore(true);
   };
 
@@ -57,29 +56,38 @@ const ListItems: FC<DataList> = ({
 
   return (
     <Box>
-      <InfiniteScroll
-        dataLength={results.length}
-        next={fetchMoreData}
-        hasMore={true}
-        loader={<h4 style={{color:'gold', fontSize:'30px'}}>Loading...</h4>}
-        endMessage={
-          <div style={{ color: "red" }}>yay , you finished loading </div>
-        }
-      >
-        {results.map((val, index) => (
-          <div
+        {/* <div
+            id="scrollableDiv"
             style={{
-              color: "white",
-              border: "1px solid green",
-              marginTop: "5px",
+                height: 700,
+                overflow: "auto" 
             }}
-            key={index}
-          >
-            <h1>{val.ticker}</h1>
-            <p> {val.name}</p>
-          </div>
-        ))}
-      </InfiniteScroll>
+            > */}
+            <InfiniteScroll
+                dataLength={results.length}
+                next={fetchMoreData}
+                hasMore={true}
+                scrollThreshold={1}
+                loader={results.length < 16 && <h4 style={{color:'gold', fontSize:'30px'}}>Loading...</h4>}
+                endMessage={
+                <div style={{ color: "red" }}>yay , you finished loading </div>
+                }
+            >
+                {results.map((val, index) => (
+                <div
+                    style={{
+                    color: "white",
+                    border: "1px solid green",
+                    marginTop: "5px",
+                    }}
+                    key={index}
+                >
+                    <h1>{val.ticker}</h1>
+                    <p> {val.name}</p>
+                </div>
+                ))}
+        </InfiniteScroll>
+      {/* </div> */}
       {(results.length == 16) && (
         <Box alignContent="center" className={classes.container}>
           <Box className={classes.prevBox}>

@@ -7,11 +7,12 @@ export const onInitializeOvermind = async () => {
   /**
    * Use effects and other actions onInitialize
    */
-  return await axios.get<Stocks>('https://api.polygon.io/v3/reference/tickers?active=true&sort=ticker&limit=8&apiKey=1Ix_pEbbGO6q5wt_9vzk69eSceoI7QNj')
+
+  return await axios.get<Stocks>(process.env.NEXT_PUBLIC_GETALLSTOCKS+'')
 };
 
 export const LoadMoreStocks = async ({ state }:IAppContext, value:any) => {
-  await axios.get<Stocks>(state.next_url+''+'&limit=8&apiKey=1Ix_pEbbGO6q5wt_9vzk69eSceoI7QNj'+'').then((res)=>{
+  await axios.get<Stocks>(state.next_url+process.env.NEXT_PUBLIC_SELECTIONQUERY+'').then((res)=>{
     console.log("Loading more")
     state.next_url = res.data.next_url
     if(state.results.length < 16){
@@ -20,8 +21,13 @@ export const LoadMoreStocks = async ({ state }:IAppContext, value:any) => {
       state.results = res.data.results
     }
     // state.results = state.results.concat(res.data.results)
-    state.memory = state.memory.concat(state.results)
-    console.log('this is more states',res.data.results)
+    if(state.results.length == 16){
+      state.memory = state.memory.concat(state.results)
+    }
+    
+    // console.log('this is more states',res.data.results)
+  }).catch((err)=>{
+    console.log(err)
   })
 }
 
@@ -66,6 +72,10 @@ export const PrevPage = ({ state }:IAppContext, value:any) =>{
   if (a.length > 0){
     state.results  = a
   }
+
+  // if(state.count == state.currentPage){
+  //   state.count = state.count + 1
+  // }
  
 }
 
