@@ -39,7 +39,7 @@ export const SearchForStock = async ({ state }: IAppContext) => {
   if(state.search.length > 0 ){
     await axios
     .get<Stocks>(
-      `https://api.polygon.io/v3/reference/tickers?search=${state.search}&active=true&sort=ticker&order=asc&limit=8&apiKey=1Ix_pEbbGO6q5wt_9vzk69eSceoI7QNj`
+      `${process.env.NEXT_PUBLIC_GETALLSTOCKS}&search=${state.search}`
     )
     .then((res) => {
       console.log("Loading more");
@@ -87,6 +87,12 @@ export const LoadMoreStocks = async ({ state }: IAppContext, value: any) => {
 export const ClearResults = async ({ state }: IAppContext, value: any) => {
   state.results = [];
   state.memory = []
+  state.count = 0
+  state.currentPage = 0
+  state.index = {
+    start:0,
+    end : 16
+  }
 };
 
 export const NextPage = async ({ state, actions }: IAppContext, value: any) => {

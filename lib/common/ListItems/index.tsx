@@ -29,7 +29,8 @@ const ListItems: FC<DataList> = ({
 }) => {
   const classes = useStyles();
 
-  const { next_url, currentPage } = useAppState();
+  const { next_url, currentPage, memory } = useAppState();
+  console.log('this is memory', memory)
 
   const fetchMoreData = () => {
     if (results.length == 16) {
@@ -88,7 +89,7 @@ const ListItems: FC<DataList> = ({
               </Button>
             </Box>
           )}
-          {next_url.length > 0 && (
+          {(next_url && next_url.length > 0) && (
             <Box className={classes.nextBox}>
               <Button onClick={handleNextPage} variant="contained">
                 Next
