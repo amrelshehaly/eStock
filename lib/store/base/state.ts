@@ -17,10 +17,14 @@ export type Stocks = {
   index: positions
   memory: any[]
   currentPage: number
+  search: string
+  startSearching : boolean
 };
 
 export const state: Stocks = {
   next_url: "",
+  startSearching: false,
+  search : '',
   count: 0,
   currentPage:0,
   results: [],

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import SimpleTable from '../../common/table'
 import SearchBar from '../../common/searchbar'
 import headers from './headers.json'
@@ -9,18 +9,32 @@ import ListItems from '../../common/ListItems'
 
 const DashboardModule = () => {
   const classes = useStyle()
-  const { count, next_url, results, currentPage } = useAppState()
-  const { onInitializeOvermind, LoadMoreStocks, ClearResults, NextPage, PrevPage } = useActions()
-  const [search, setSearch] = useState<string>()
+  const { count, next_url, results, currentPage, startSearching } = useAppState()
+  const { LoadMoreStocks, ClearResults, NextPage, PrevPage, SearchForStock, SetSearching, ChangeStartSearching } = useActions()
+  const [search, setSearch] = useState<string>('')
 
+
+  const handleOnSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      console.log(event)
+      ChangeStartSearching()
+    }
+  }
+ 
+  useEffect(()=>{
+    console.log(search)
+    if(search?.length == 0){
+      console.log('the string is empty')
+    }
+  },[search])
 
   return (
     <Container className={classes.containers}>
       <h1 style={{ color: 'white' }}>maxpages:{count}</h1>
       <p style={{ color: 'white' }}>currentPage:{currentPage}</p>
-      <SearchBar setSearch={setSearch} />
+      <SearchBar setSearch={SetSearching} onSubmit={handleOnSubmit} />
       <Box style={{ width: '100%' }}>
-        <ListItems results={results} LoadMore={LoadMoreStocks} ClearArray={ClearResults} setNextPage={NextPage} setPrevPage={PrevPage} />
+        <ListItems results={results} LoadMore={startSearching? SearchForStock : LoadMoreStocks} ClearArray={ClearResults} setNextPage={NextPage} setPrevPage={PrevPage} />
         {/* <SimpleTable headers={headers} data={results} /> */}
       </Box>
     </Container>
