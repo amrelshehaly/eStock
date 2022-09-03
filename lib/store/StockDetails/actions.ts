@@ -1,18 +1,9 @@
 import { IAppContext } from "@lib/store";
 import axios from "axios";
-import { StockDetails, PreviousClose,StockDetailsState } from "./state";
+import { StockDetails, PreviousClose, StockDetailsState, StockPreviousState } from "./state";
 import * as R from 'ramda'
 
 
-// export const getPreviousClose = async ({state}:IAppContext) =>{
-
-//     await axios.get<PreviousClose>(`https://api.polygon.io/v2/aggs/ticker/${StockDetailsState.stock.ticker}/prev?adjusted=true&apiKey=1Ix_pEbbGO6q5wt_9vzk69eSceoI7QNj`).then((res:any)=>{
-//         console.log("Choosen Stock",res.data.results)
-//     }).catch((err)=>{
-//         console.log(err)
-        
-//     })
-// }
 
 export const getTickerDetails = async ({actions}:IAppContext, ticker:string) =>{
     await axios.get<StockDetails>(`https://api.polygon.io/v3/reference/tickers/${ticker}?apiKey=1Ix_pEbbGO6q5wt_9vzk69eSceoI7QNj`).then(({data})=>{
@@ -29,11 +20,19 @@ export const getTickerDetails = async ({actions}:IAppContext, ticker:string) =>{
     })
 }
 
-// export const assignObjects = () => {    
-//     let stock  : StockDetails
-    
-    
-// }   
+
+export const getPreviousClose = async ({actions}:IAppContext, ticker:string) => {
+    await axios.get<PreviousClose>(`https://api.polygon.io/v2/aggs/ticker/${ticker}/prev?apiKey=1Ix_pEbbGO6q5wt_9vzk69eSceoI7QNj`).then(({data})=>{
+        const results : PreviousClose = R.path(['results','0'],data) || ClearPreviousClose()
+        console.log(results)
+        StockPreviousState.c = results.c
+        StockPreviousState.l = results.l
+        StockPreviousState.h = results.h
+        StockPreviousState.o = results.o
+    }).catch((err)=>{
+        console.log(err)
+    })
+}
 
 const ClearStockDetails = () =>{
     const ClearStock : StockDetails = {
@@ -52,11 +51,20 @@ const ClearStockDetails = () =>{
    
 }
 
-// export const setTicker = async ({actions}:IAppContext,ticker:string, name:string) =>{
-//     console.log("ticker",ticker,"name",name)
-//     StockDetailsState.stock.ticker = ticker
-//     StockDetailsState.stock.name = name
-//     await actions.getPreviousClose()
-// }
+const ClearPreviousClose = () =>{
+    const PreviosCLose : PreviousClose = {
+        c:0,
+        l:0,
+        h:0,
+        o:0
+    }
+    return PreviosCLose
+}
+
+export const ShowAllDetails =  async({actions}:IAppContext, ticker:string) =>{
+    await actions.getTickerDetails(ticker)
+    await actions.getPreviousClose(ticker)
+    await actions.ChangePageValue()
+}
 
   

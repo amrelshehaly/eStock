@@ -6,11 +6,12 @@ import { Container, Box } from "@material-ui/core";
 import useStyle from "./style";
 import { useAppState, useActions } from "@lib/store";
 import ListItems from "../../common/ListItems";
+import { useRouter } from 'next/router'
+
 
 const DashboardModule = () => {
   const classes = useStyle();
-  const { count, next_url, results, currentPage, startSearching,search } =
-    useAppState();
+  const { count, next_url, results, currentPage, startSearching,search } = useAppState();
   const {
     LoadMoreStocks,
     ClearResults,
@@ -19,9 +20,12 @@ const DashboardModule = () => {
     SearchForStock,
     SetSearching,
     ChangeStartSearching,
-    getTickerDetails,
+    ShowAllDetails,
+    
   } = useActions();
   // const [search, setSearch] = useState<string>("");
+
+  const router = useRouter()
 
   const handleOnSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -30,21 +34,18 @@ const DashboardModule = () => {
     }
   };
 
-  // useEffect(() => {
-  //   console.log(search);
-  //   if (search?.length == 0) {
-  //     console.log("the string is empty");
-  //   }
-  // }, [search]);
+  useEffect(() => {
+    console.log(router.query)
+  }, [router.query]);
 
   return (
     <Container className={classes.containers}>
       <h1 style={{ color: "white" }}>maxpages:{count}</h1>
       <p style={{ color: "white" }}>currentPage:{currentPage}</p>
-      <SearchBar setSearch={SetSearching} onSubmit={handleOnSubmit} />
+      <SearchBar setSearch={SetSearching} onSubmit={handleOnSubmit} search={search} />
       <Box style={{ width: "100%" }}>
         <ListItems
-          setTicker={getTickerDetails}
+          setTicker={ShowAllDetails}
           results={results}
           LoadMore={startSearching ? SearchForStock : LoadMoreStocks}
           ClearArray={ClearResults}

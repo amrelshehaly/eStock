@@ -1,8 +1,8 @@
-import { GetStaticProps, NextPage } from "next";
+import { GetStaticProps, NextPage, GetServerSideProps } from "next";
 import { createOvermindSSR } from "overmind";
 import React from "react";
-import { storeConfig } from "@lib/store";
-import Home from "@lib/components/home/index";
+import { storeConfig, useAppState, useActions } from "@lib/store";
+import Main from '@lib/components'
 import { state } from "@lib/store/base/state";
 
 type Props = {};
@@ -10,11 +10,16 @@ type Props = {};
 export const getStaticProps: GetStaticProps = async () => {
   const overmind = createOvermindSSR(storeConfig);
 
-  await overmind.actions.onInitializeOvermind().then((res) => {
-    // console.log('the result',res.data.results)
-    overmind.state.results = res.data.results;
-    overmind.state.next_url = res.data.next_url;
-  });
+  await overmind.actions
+    .onInitializeOvermind()
+    .then((res) => {
+      console.log("calling Initialize");
+      overmind.state.results = res.data.results;
+      overmind.state.next_url = res.data.next_url;
+    })
+    .catch((err) => {
+      console.error("hena fel index");
+    });
 
   // overmind.state.results = response.
 
@@ -24,7 +29,7 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 const IndexPage: NextPage<Props> = () => {
-  return <Home />;
+  return <Main />
 };
 
 export default IndexPage;

@@ -19,11 +19,6 @@ export interface StockDetails {
   homepage_url?: string;
 }
 
-// interface Stock {
-//   stock: StockDetails;
-//   details: PreviousClose;
-// }
-
 export const StockDetailsState: StockDetails = {
   description: "",
   name: "",

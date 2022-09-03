@@ -19,6 +19,7 @@ export type Stocks = {
   currentPage: number
   search: string
   startSearching : boolean
+  page: string
 };
 
 export const state: Stocks = {
@@ -33,6 +34,7 @@ export const state: Stocks = {
     start: 0,
     end: 16,
   },
+  page : 'home'
 };
 
 // export interface ErrorHandling {

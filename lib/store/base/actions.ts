@@ -138,9 +138,19 @@ export const SetSearching = async ({ state,actions }: IAppContext, value:string 
     state.search = value
   }else if (state.startSearching == true) {
     state.startSearching = false
+    state.search = ''
     await actions.ClearResults()
     await actions.GetAllStocks()
   }
+}
+
+export const ChangePageValue = async ({ state }: IAppContext) => {
+  if (state.page == 'home'){
+    state.page = 'details'
+  }else{
+    state.page = 'home'
+  }
+
 }
 
 

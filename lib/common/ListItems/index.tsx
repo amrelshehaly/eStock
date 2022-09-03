@@ -1,4 +1,4 @@
-import React, { useState, FC, useEffect, useRef } from "react";
+import React, { useState, FC, useEffect, useRef, memo } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import useStyles from "./styles";
@@ -79,7 +79,7 @@ const ListItems: FC<DataList> = ({
               marginTop: "5px",
             }}
             key={index}
-            onClick={() => router.push('/details',undefined,{ shallow: true })}
+            onClick={() => setTicker(val.ticker)}
           >
             <h1>{val.ticker}</h1>
             <p> {val.name}</p>
@@ -110,4 +110,4 @@ const ListItems: FC<DataList> = ({
   );
 };
 
-export default ListItems;
+export default memo(ListItems);

@@ -1,13 +1,20 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { useRouter } from 'next/router'
 import { useAppState, useActions } from "@lib/store";
+import {StockDetailsState} from '@lib/store/StockDetails'
 
 
 
 const StockDetailsComponent = () => {
     const router = useRouter()
+    const {ChangePageValue} = useActions()
+
+    useEffect(()=>{
+        console.log("here is the details", StockDetailsState)
+    },[])
+
   return (
-    <button onClick={()=> router.push('/',undefined,{shallow:true})}>go back</button>
+    <button onClick={()=> ChangePageValue()}>go back</button>
   )
 }
 
