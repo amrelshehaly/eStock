@@ -1,6 +1,6 @@
 import {derived} from 'overmind' 
 
-export type stock = {
+export type stock = { //this was never used
   ticker: string;
   name: string;
 };
@@ -34,3 +34,8 @@ export const state: Stocks = {
     end: 16,
   },
 };
+
+// export interface ErrorHandling {
+//   success: boolean;
+//   error?: { message: string };
+// }

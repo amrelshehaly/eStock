@@ -3,6 +3,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import useStyles from "./styles";
 import { useAppState, useActions } from "@lib/store";
+import { useRouter } from 'next/router'
+
 
 import {
   Box,
@@ -18,6 +20,7 @@ interface DataList {
   ClearArray: () => void;
   setNextPage: () => void;
   setPrevPage: () => void;
+  setTicker: (ticker:string) => void;
 }
 
 const ListItems: FC<DataList> = ({
@@ -26,11 +29,14 @@ const ListItems: FC<DataList> = ({
   ClearArray,
   setNextPage,
   setPrevPage,
+  setTicker
 }) => {
   const classes = useStyles();
 
   const { next_url, currentPage, memory } = useAppState();
   console.log('this is memory', memory)
+
+  const router = useRouter()
 
   const fetchMoreData = () => {
     if (results.length == 16) {
@@ -60,7 +66,7 @@ const ListItems: FC<DataList> = ({
         dataLength={results.length}
         next={() => fetchMoreData()}
         hasMore={true}
-        loader={<h4 style={{ color: "gold", fontSize: "30px" }}>Loading...</h4>}
+        loader={results.length < 16 && <h4 style={{ color: "gold", fontSize: "30px" }}>Loading...</h4>}
         endMessage={
           <div style={{ color: "red" }}>yay , you finished loading </div>
         }
@@ -73,6 +79,7 @@ const ListItems: FC<DataList> = ({
               marginTop: "5px",
             }}
             key={index}
+            onClick={() => router.push('/details',undefined,{ shallow: true })}
           >
             <h1>{val.ticker}</h1>
             <p> {val.name}</p>

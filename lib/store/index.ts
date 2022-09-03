@@ -7,8 +7,9 @@ import {
   createStateHook,
 } from "overmind-react";
 import * as base from "./base";
+import * as StockDetails from "./StockDetails"
 
-export const storeConfig = merge(base, {});
+export const storeConfig = merge(base, StockDetails,{});
 
 export type IAppContext = IContext<typeof storeConfig>;
 

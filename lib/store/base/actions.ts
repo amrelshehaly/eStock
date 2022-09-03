@@ -110,16 +110,6 @@ export const NextPage = async ({ state, actions }: IAppContext, value: any) => {
     await actions.LoadMoreStocks();
   }
 
-  // state.index.start = state.count * 16
-  // state.index.end = (state.count * 16) + 16
-  // const a = state.memory.slice(state.index.start, state.index.end)
-  // console.log("this is the page indexs",state.index.start, state.index.end)
-  // if (a.length > 0){
-  //   console.log("adding a in the results")
-  //   state.results  = [...a]
-  // }else{
-  //   console.log("not in nextpage")
-  // }
 };
 
 export const PrevPage = ({ state }: IAppContext, value: any) => {
@@ -131,9 +121,6 @@ export const PrevPage = ({ state }: IAppContext, value: any) => {
     state.results = a;
   }
 
-  // if(state.count == state.currentPage){
-  //   state.count = state.count + 1
-  // }
 };
 
 export const ChangeStartSearching = async ({ state, actions }: IAppContext) => {

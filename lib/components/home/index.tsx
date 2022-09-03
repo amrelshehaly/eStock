@@ -1,44 +1,60 @@
-import React, { useState, useEffect } from 'react'
-import SimpleTable from '../../common/table'
-import SearchBar from '../../common/searchbar'
-import headers from './headers.json'
-import { Container, Box } from '@material-ui/core'
-import useStyle from './style'
-import { useAppState , useActions } from "@lib/store"
-import ListItems from '../../common/ListItems'
+import React, { useState, useEffect } from "react";
+import SimpleTable from "../../common/table";
+import SearchBar from "../../common/searchbar";
+import headers from "./headers.json";
+import { Container, Box } from "@material-ui/core";
+import useStyle from "./style";
+import { useAppState, useActions } from "@lib/store";
+import ListItems from "../../common/ListItems";
 
 const DashboardModule = () => {
-  const classes = useStyle()
-  const { count, next_url, results, currentPage, startSearching } = useAppState()
-  const { LoadMoreStocks, ClearResults, NextPage, PrevPage, SearchForStock, SetSearching, ChangeStartSearching } = useActions()
-  const [search, setSearch] = useState<string>('')
-
+  const classes = useStyle();
+  const { count, next_url, results, currentPage, startSearching,search } =
+    useAppState();
+  const {
+    LoadMoreStocks,
+    ClearResults,
+    NextPage,
+    PrevPage,
+    SearchForStock,
+    SetSearching,
+    ChangeStartSearching,
+    getTickerDetails,
+  } = useActions();
+  // const [search, setSearch] = useState<string>("");
 
   const handleOnSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      console.log(event)
-      ChangeStartSearching()
+    if (event.key === "Enter") {
+      console.log(event);
+      ChangeStartSearching();
     }
-  }
- 
-  useEffect(()=>{
-    console.log(search)
-    if(search?.length == 0){
-      console.log('the string is empty')
-    }
-  },[search])
+  };
+
+  // useEffect(() => {
+  //   console.log(search);
+  //   if (search?.length == 0) {
+  //     console.log("the string is empty");
+  //   }
+  // }, [search]);
 
   return (
     <Container className={classes.containers}>
-      <h1 style={{ color: 'white' }}>maxpages:{count}</h1>
-      <p style={{ color: 'white' }}>currentPage:{currentPage}</p>
+      <h1 style={{ color: "white" }}>maxpages:{count}</h1>
+      <p style={{ color: "white" }}>currentPage:{currentPage}</p>
       <SearchBar setSearch={SetSearching} onSubmit={handleOnSubmit} />
-      <Box style={{ width: '100%' }}>
-        <ListItems results={results} LoadMore={startSearching? SearchForStock : LoadMoreStocks} ClearArray={ClearResults} setNextPage={NextPage} setPrevPage={PrevPage} />
+      <Box style={{ width: "100%" }}>
+        <ListItems
+          setTicker={getTickerDetails}
+          results={results}
+          LoadMore={startSearching ? SearchForStock : LoadMoreStocks}
+          ClearArray={ClearResults}
+          setNextPage={NextPage}
+          setPrevPage={PrevPage}
+        />
         {/* <SimpleTable headers={headers} data={results} /> */}
       </Box>
     </Container>
-  )
-}
+  );
+};
 
-export default DashboardModule
+export default DashboardModule;
