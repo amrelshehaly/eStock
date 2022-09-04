@@ -21,6 +21,7 @@ export type Stocks = {
   startSearching : boolean
   page: string
   loading: boolean
+  error:string
 };
 
 export const state: Stocks = {
@@ -36,7 +37,8 @@ export const state: Stocks = {
     end: 16,
   },
   page : 'Home',
-  loading : false
+  loading : false,
+  error : ''
 };
 
 // export interface ErrorHandling {

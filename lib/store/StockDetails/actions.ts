@@ -4,34 +4,39 @@ import { StockDetails, PreviousClose, StockDetailsState, StockPreviousState } fr
 import * as R from 'ramda'
 
 
+    const headers = {
+        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_APIKEY}`
+    }
 
-export const getTickerDetails = async ({actions}:IAppContext, ticker:string) =>{
+
+export const getTickerDetails = async ({state,actions}:IAppContext, ticker:string) =>{
     actions.ToggleLoading()
-    await axios.get<StockDetails>(`https://api.polygon.io/v3/reference/tickers/${ticker}?apiKey=1Ix_pEbbGO6q5wt_9vzk69eSceoI7QNj`).then(async ({data})=>{
-        const results : StockDetails =  R.path(['results'], data) || ClearStockDetails()
+    await axios.get<StockDetails>(`https://api.polygon.io/v3/reference/tickers/${ticker}`,{headers}).then(async ({data})=>{
+        const results : StockDetails =  R.path(['results'], data) || StockDetailsState
         StockDetailsState.ticker = results.ticker
         StockDetailsState.name = results.name
         StockDetailsState.sic_description = results.sic_description
         StockDetailsState.description = results.description
         StockDetailsState.homepage_url = results.homepage_url
         if(results.branding){
-            await actions.getImageURL((results.branding?.icon_url) as string)
+            // await actions.getImageURL((results.branding?.icon_url) as string)
             await actions.getImageURL((results.branding?.logo_url) as string)
         }
-        actions.ToggleLoading()
+        await actions.ToggleLoading()
         // StockDetailsState.branding.icon_url = results.branding?.icon_url
         // StockDetailsState.branding.logo_url = results.branding?.logo_url
     }).catch((err)=>{
         actions.ToggleLoading()
-        console.log(err)
+        state.error = err.response.data.error
+        console.log("GETTICKERSERROR",err)
     })
 }
 
 
-export const getPreviousClose = async ({actions}:IAppContext, ticker:string) => {
+export const getPreviousClose = async ({state, actions}:IAppContext, ticker:string) => {
     actions.ToggleLoading()
-    await axios.get<PreviousClose>(`https://api.polygon.io/v2/aggs/ticker/${ticker}/prev?apiKey=1Ix_pEbbGO6q5wt_9vzk69eSceoI7QNj`).then(({data})=>{
-        const results : PreviousClose = R.path(['results','0'],data) || ClearPreviousClose()
+    await axios.get<PreviousClose>(`https://api.polygon.io/v2/aggs/ticker/${ticker}/prev`,{headers}).then(({data})=>{
+        const results : PreviousClose = R.path(['results','0'],data) || StockPreviousState
         StockPreviousState.c = results.c
         StockPreviousState.l = results.l
         StockPreviousState.h = results.h
@@ -39,24 +44,13 @@ export const getPreviousClose = async ({actions}:IAppContext, ticker:string) => 
         actions.ToggleLoading()
     }).catch((err)=>{
         actions.ToggleLoading()
+        state.error = err.response.data.error
         console.log(err)
     })
 }
 
 
 export const ClearStockDetails = () =>{
-    // const ClearStock : StockDetails = {
-    //     description: "",
-    //     name: "",
-    //     branding: {
-    //       icon_url: "",
-    //       logo_url: "",
-    //     },
-    //     sic_description: "",
-    //     ticker: "",
-    //     homepage_url: "",
-    // }
-
     StockDetailsState.name =''
     StockDetailsState.description = ''
     StockDetailsState.sic_description = ''
@@ -65,17 +59,9 @@ export const ClearStockDetails = () =>{
     StockDetailsState.branding.icon_url = ''
     StockDetailsState.branding.logo_url = ''
 
-    return StockDetailsState
-
 }
 
-export const ClearPreviousClose = () =>{
-    const PreviosCLose : PreviousClose = {
-        c:0,
-        l:0,
-        h:0,
-        o:0
-    }
+export const ClearPreviousClose = async () =>{
 
     StockPreviousState.c = 0
     StockPreviousState.h = 0
@@ -88,34 +74,40 @@ export const ClearPreviousClose = () =>{
     //         StockPreviousState[key as keyof typeof StockPreviousState]  =  PreviosCLose[key as keyof typeof PreviosCLose] || 0
     //     }
     //   }
+}
 
-      return StockPreviousState
+export const ShowAllDetails =  async ({state, actions}:IAppContext, ticker:string) =>{
+    try {
+        await actions.ResetErrorMsg()
+        await actions.ClearPreviousClose()
+        await actions.ClearStockDetails()
+        await actions.getTickerDetails(ticker)
+        await actions.getPreviousClose(ticker)
+        if(state.error.length == 0){
+            await actions.ChangePageValue()
+        }
+    } catch (error) {
+        console.log("this is an error keber")
+    }
 
 }
 
-export const ShowAllDetails =  async ({actions}:IAppContext, ticker:string) =>{
-    await actions.getTickerDetails(ticker)
-    await actions.getPreviousClose(ticker)
-    await actions.ChangePageValue()
-}
-
-export const getImageURL = async ({actions}:IAppContext, url: string) =>{
+export const getImageURL = async ({state, actions}:IAppContext, url: string) =>{
     actions.ToggleLoading()
     await axios.get(`${url}`,{
-        headers:{
-            'Authorization': 'Bearer 1Ix_pEbbGO6q5wt_9vzk69eSceoI7QNj',
-        },
+        headers,
         responseType: "arraybuffer",
     }).then((res)=>{
         console.log('png ', res)
         let data = `data:${
             res.headers["content-type"]
           };base64,${new Buffer(res.data, "binary").toString("base64")}`;
-        StockDetailsState.branding.icon_url = data
+        // StockDetailsState.branding.icon_url = data
         StockDetailsState.branding.logo_url = data
         actions.ToggleLoading()
     }).catch((err)=>{
         actions.ToggleLoading()
+        state.error = err.response.data.error
         console.log(err)
     })
 }

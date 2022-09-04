@@ -159,12 +159,12 @@ export const ChangePageValue = async ({ state, actions }: IAppContext) => {
   if (state.page == 'Home'){
     state.page = 'Stock Details'
   }else{
-    actions.ClearPreviousClose()
-    actions.ClearStockDetails()
     state.page = 'Home'
   }
-  console.log(state.page)
+}
 
+export const ResetErrorMsg = async ({ state }: IAppContext) =>{
+    state.error = ''
 }
 
 export const ToggleLoading = ({ state }: IAppContext) => {

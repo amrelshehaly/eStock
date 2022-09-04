@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import {StockDetailsState} from '@lib/store/StockDetails'
-import { Card, Container, Typography, CardContent, CardHeader, Avatar, Box} from '@mui/material'
+import { Card, Container, Typography, CardContent, CardHeader, Avatar, Box,Grid} from '@mui/material'
 import theme from '@lib/styles/mui_theme';
 import useStyles from './style'
 
@@ -10,11 +10,11 @@ const StockDetailsComponent = () => {
     const classes = useStyles()
   return (
     <Container>
-        {StockDetailsState.StockDetailsState.branding.icon_url && <Box className={classes.ImageCard}>
-            <img  src={StockDetailsState.StockDetailsState.branding.icon_url}  alt="IconImage" />:
+        {StockDetailsState.StockDetailsState.branding.logo_url && <Box className={classes.ImageCard}>
+            <img  src={StockDetailsState.StockDetailsState.branding.logo_url}  alt="IconImage" />:
         </Box>}
-        
-        <Card className={classes.CardDescription} variant="outlined" >
+
+        <Card className={classes.CardDescription} variant="outlined" sx={{display:'flex'}} >
             <CardContent>
                 <CardHeader
                     avatar={
@@ -25,11 +25,23 @@ const StockDetailsComponent = () => {
                     </Avatar>
                     }
                 />
-                <Typography>
+            </CardContent>
+                <Box className={classes.HeaderContent}>
+                    <Typography variant='h4' component='div'>
+                        {StockDetailsState.StockDetailsState.ticker}
+                    </Typography>
+                    <Typography variant='h5' component='div'>
+                        {StockDetailsState.StockDetailsState.name}
+                    </Typography>
+                </Box>
+        </Card>
+        {StockDetailsState.StockDetailsState.description && <Card>
+            <CardContent>
+                <Typography variant='h6' component='div'>
                     {StockDetailsState.StockDetailsState.description}
                 </Typography>
             </CardContent>
-        </Card>
+        </Card>}
         <Card  variant="outlined" sx={{height:'300px', marginY:'20px'}}>
             <CardContent>
                 <Typography variant="h5" component="div">
