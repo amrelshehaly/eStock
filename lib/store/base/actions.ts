@@ -2,6 +2,7 @@ import { IAppContext } from "@lib/store";
 import { rehydrate } from "overmind";
 import { state, Stocks } from "./state";
 import axios from "axios";
+import { action } from "overmind/lib/operator";
 
 export const onInitializeOvermind = async () => {
   /**
@@ -11,7 +12,8 @@ export const onInitializeOvermind = async () => {
   return await axios.get<Stocks>(process.env.NEXT_PUBLIC_GETALLSTOCKS + "");
 };
 
-export const GetAllStocks = async ({ state }: IAppContext) => {
+export const GetAllStocks = async ({ state, actions }: IAppContext) => {
+  actions.ToggleLoading()
   await axios
   .get<Stocks>(process.env.NEXT_PUBLIC_GETALLSTOCKS + "")
   .then((res) => {
@@ -28,15 +30,18 @@ export const GetAllStocks = async ({ state }: IAppContext) => {
     }
 
     // console.log('this is more states',res.data.results)
+    actions.ToggleLoading()
+
   })
   .catch((err) => {
+    actions.ToggleLoading()
     console.log(err);
   });
 }
 
-export const SearchForStock = async ({ state }: IAppContext) => {
-
+export const SearchForStock = async ({ state, actions }: IAppContext) => {
   if(state.search.length > 0 ){
+    actions.ToggleLoading()
     await axios
     .get<Stocks>(
       `${process.env.NEXT_PUBLIC_GETALLSTOCKS}&search=${state.search}`
@@ -52,16 +57,19 @@ export const SearchForStock = async ({ state }: IAppContext) => {
       if (state.results.length == 16) {
         state.memory = [... new Set(state.memory.concat(state.results))];
       }
+      actions.ToggleLoading()
     })
     .catch((err: any) => {
       console.log(err);
+      actions.ToggleLoading()
     });
   }else{
     state.startSearching = false
   }
 };
 
-export const LoadMoreStocks = async ({ state }: IAppContext, value: any) => {
+export const LoadMoreStocks = async ({ state, actions }: IAppContext, value: any) => {
+  actions.ToggleLoading()
   await axios
     .get<Stocks>(state.next_url + process.env.NEXT_PUBLIC_SELECTIONQUERY+'')
     .then((res) => {
@@ -77,9 +85,12 @@ export const LoadMoreStocks = async ({ state }: IAppContext, value: any) => {
         state.memory = [... new Set(state.memory.concat(state.results))];
       }
 
+      actions.ToggleLoading()
+
       // console.log('this is more states',res.data.results)
     })
     .catch((err) => {
+      actions.ToggleLoading()
       console.log(err);
     });
 };
@@ -144,14 +155,20 @@ export const SetSearching = async ({ state,actions }: IAppContext, value:string 
   }
 }
 
-export const ChangePageValue = async ({ state }: IAppContext) => {
+export const ChangePageValue = async ({ state, actions }: IAppContext) => {
   if (state.page == 'Home'){
     state.page = 'Stock Details'
   }else{
+    actions.ClearPreviousClose()
+    actions.ClearStockDetails()
     state.page = 'Home'
   }
   console.log(state.page)
 
+}
+
+export const ToggleLoading = ({ state }: IAppContext) => {
+  state.loading = !state.loading
 }
 
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {StockDetailsState} from '@lib/store/StockDetails'
 import { Card, Container, Typography, CardContent, CardHeader, Avatar, Box} from '@mui/material'
 import theme from '@lib/styles/mui_theme';
@@ -10,9 +10,9 @@ const StockDetailsComponent = () => {
     const classes = useStyles()
   return (
     <Container>
-        <Card className={classes.ImageCard}>
+        {StockDetailsState.StockDetailsState.branding.icon_url && <Box className={classes.ImageCard}>
             <img  src={StockDetailsState.StockDetailsState.branding.icon_url}  alt="IconImage" />:
-        </Card>
+        </Box>}
         
         <Card className={classes.CardDescription} variant="outlined" >
             <CardContent>

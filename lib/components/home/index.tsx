@@ -7,6 +7,8 @@ import useStyle from "./style";
 import { useAppState, useActions } from "@lib/store";
 import ListItems from "../../common/ListItems";
 import { useRouter } from 'next/router'
+import {StockDetailsState} from '@lib/store/StockDetails'
+
 
 
 const DashboardModule = () => {
@@ -34,9 +36,10 @@ const DashboardModule = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(router.query)
-  }, [router.query]);
+  useEffect(()=>{
+    console.log("prev", StockDetailsState.StockPreviousState)
+    console.log(StockDetailsState.StockDetailsState)
+  },[])
 
   return (
     <Container className={classes.containers}>
@@ -52,7 +55,6 @@ const DashboardModule = () => {
           setNextPage={NextPage}
           setPrevPage={PrevPage}
         />
-        {/* <SimpleTable headers={headers} data={results} /> */}
       </Box>
     </Container>
   );

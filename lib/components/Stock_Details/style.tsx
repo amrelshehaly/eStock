@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 export const useStyles = makeStyles((theme: Theme) => ({
   ImageCard:{
-    background:'black',
+    // background:'black',
     marginTop:'20px',
     marginBottom:'20px',
     '& img':{
