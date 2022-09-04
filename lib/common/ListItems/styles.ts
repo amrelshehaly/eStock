@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
     display: 'flex',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     borderTop: '1px solid #EAECF0',
     height: '70px',
   },
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginLeft: '5px',
     '& button': {
       border: '1px solid #D0D5DD',
-      color: '#344054',
+      color: 'white',
       textTransform: 'none',
       borderRadius: '8px',
       '& svg': {
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginRight: '5px',
     '& button': {
       border: '1px solid #D0D5DD',
-      color: '#344054',
+      color: 'white',
       width: '88px',
       textTransform: 'none',
       borderRadius: '8px',

@@ -34,7 +34,7 @@ export const state: Stocks = {
     start: 0,
     end: 16,
   },
-  page : 'home'
+  page : 'Home'
 };
 
 // export interface ErrorHandling {

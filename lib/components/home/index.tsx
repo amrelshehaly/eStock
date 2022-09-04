@@ -40,8 +40,8 @@ const DashboardModule = () => {
 
   return (
     <Container className={classes.containers}>
-      <h1 style={{ color: "white" }}>maxpages:{count}</h1>
-      <p style={{ color: "white" }}>currentPage:{currentPage}</p>
+      <h1 >maxpages:{count}</h1>
+      <p >currentPage:{currentPage}</p>
       <SearchBar setSearch={SetSearching} onSubmit={handleOnSubmit} search={search} />
       <Box style={{ width: "100%" }}>
         <ListItems

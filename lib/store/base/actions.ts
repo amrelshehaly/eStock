@@ -145,11 +145,12 @@ export const SetSearching = async ({ state,actions }: IAppContext, value:string 
 }
 
 export const ChangePageValue = async ({ state }: IAppContext) => {
-  if (state.page == 'home'){
-    state.page = 'details'
+  if (state.page == 'Home'){
+    state.page = 'Stock Details'
   }else{
-    state.page = 'home'
+    state.page = 'Home'
   }
+  console.log(state.page)
 
 }
 

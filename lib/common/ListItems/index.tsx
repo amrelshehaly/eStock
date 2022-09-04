@@ -5,13 +5,16 @@ import useStyles from "./styles";
 import { useAppState, useActions } from "@lib/store";
 import { useRouter } from 'next/router'
 
-
+import {ArrowUpward} from '@mui/icons-material'
 import {
   Box,
   Button,
   Typography,
   useTheme,
   useMediaQuery,
+  Card,
+  CardContent,
+  Fab
 } from "@mui/material";
 
 interface DataList {
@@ -72,18 +75,24 @@ const ListItems: FC<DataList> = ({
         }
       >
         {results.map((val, index) => (
-          <div
+          <Card
             style={{
-              color: "white",
-              border: "1px solid green",
+              border: "1px solid #e0e0e0",
               marginTop: "5px",
             }}
             key={index}
             onClick={() => setTicker(val.ticker)}
           >
-            <h1>{val.ticker}</h1>
-            <p> {val.name}</p>
-          </div>
+            <CardContent>
+                <Typography variant="h5" component="div">
+                    {val.ticker}
+                </Typography>
+                <Typography variant="body2">
+                    {val.name}
+                </Typography>
+            </CardContent>
+            
+          </Card>
         ))}
       </InfiniteScroll>
       {
@@ -106,6 +115,11 @@ const ListItems: FC<DataList> = ({
           )}
         </Box>
       }
+        {/* <Box>
+            <Fab color="secondary" aria-label="edit">
+                <ArrowUpward />
+            </Fab>
+        </Box> */}
     </Box>
   );
 };

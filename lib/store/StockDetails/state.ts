@@ -11,8 +11,8 @@ export interface StockDetails {
   ticker: string;
   name?: string;
   branding: {
-    icon_url?: string;
-    logo_url?: string;
+    icon_url?: any;
+    logo_url?: any;
   };
   description?: string;
   sic_description?: string;
@@ -23,8 +23,8 @@ export const StockDetailsState: StockDetails = {
   description: "",
   name: "",
   branding: {
-    icon_url: "",
-    logo_url: "",
+    icon_url: undefined,
+    logo_url: undefined,
   },
   sic_description: "",
   ticker: "",
