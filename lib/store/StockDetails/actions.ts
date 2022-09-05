@@ -20,19 +20,16 @@ export const getTickerDetails = async ({ state, actions }: IAppContext, ticker: 
         state.stockDetails.description = results.description
         state.stockDetails.homepage_url = results.homepage_url
         if (results.branding) {
-          // await actions.getImageURL((results.branding?.icon_url) as string)
           await actions.StockDetails.getImageURL(results.branding?.logo_url as string)
         }
       }
 
       await actions.base.ToggleLoading()
-      // StockDetailsState.branding.icon_url = results.branding?.icon_url
-      // StockDetailsState.branding.logo_url = results.branding?.logo_url
+
     })
     .catch((err) => {
       actions.base.ToggleLoading()
       state.base.error = err.response.data.error
-      console.log('GETTICKERSERROR', err)
     })
 }
 
@@ -53,7 +50,7 @@ export const getPreviousClose = async ({ state, actions }: IAppContext, ticker: 
     .catch((err) => {
       actions.base.ToggleLoading()
       state.base.error = err.response.data.error
-      console.log(err)
+      console.error(err)
     })
 }
 
@@ -85,7 +82,7 @@ export const ShowAllDetails = async ({ state, actions }: IAppContext, ticker: st
       await actions.base.ChangePageValue()
     }
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
 }
 
@@ -97,7 +94,6 @@ export const getImageURL = async ({ state, actions }: IAppContext, url: string) 
       responseType: 'arraybuffer',
     })
     .then((res) => {
-      console.log('png ', res)
       const data = `data:${res.headers['content-type']};base64,${new Buffer(res.data, 'binary').toString('base64')}`
       // StockDetailsState.branding.icon_url = data
       state.stockDetails.branding.logo_url = data
@@ -106,6 +102,6 @@ export const getImageURL = async ({ state, actions }: IAppContext, url: string) 
     .catch((err) => {
       actions.base.ToggleLoading()
       state.base.error = err.response.data.error
-      console.log(err)
+      console.error(err)
     })
 }

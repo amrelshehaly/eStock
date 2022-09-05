@@ -1,7 +1,6 @@
-import { Theme } from '@mui/material'
 import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(() => ({
   container: {
     display: 'flex',
     justifyContent: 'space-between',

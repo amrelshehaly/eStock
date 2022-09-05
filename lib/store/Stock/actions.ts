@@ -7,17 +7,15 @@ export const GetAllStocks = async ({ state, actions }: IAppContext) => {
   await axios
     .get<Stock>(process.env.NEXT_PUBLIC_GETALLSTOCKS + '')
     .then((res) => {
-      console.log('Loading more')
       if (res) {
         actions.Stock.SetArrayConcat(res.data)
       }
-      // console.log('this is more states',res.data.results)
       actions.base.ToggleLoading()
     })
     .catch((err) => {
       state.base.error = err.response.data.error
       actions.base.ToggleLoading()
-      console.log(err)
+      console.error(err)
     })
 }
 
@@ -27,14 +25,13 @@ export const SearchForStock = async ({ state, actions }: IAppContext) => {
     await axios
       .get<Stock>(`${process.env.NEXT_PUBLIC_GETALLSTOCKS}&search=${state.base.search}`)
       .then((res) => {
-        console.log('Loading more')
         if (res) {
           actions.Stock.SetArrayConcat(res.data)
         }
         actions.base.ToggleLoading()
       })
       .catch((err: any) => {
-        console.log(err)
+        console.error(err)
         state.base.error = err.response.data.error
         actions.base.ToggleLoading()
       })
@@ -48,7 +45,6 @@ export const LoadMoreStocks = async ({ state, actions }: IAppContext) => {
   await axios
     .get<Stock>(state.stock.next_url + process.env.NEXT_PUBLIC_SELECTIONQUERY + '')
     .then((res) => {
-      console.log('Loading more')
       if (res) {
         actions.Stock.SetArrayConcat(res.data)
       }
@@ -62,11 +58,11 @@ export const LoadMoreStocks = async ({ state, actions }: IAppContext) => {
         await actions.base.ToggleLoading()
       }, 35000)
 
-      console.log(err)
+      console.error(err)
     })
 }
 
-export const SetArrayConcat = async ({ state, actions }: IAppContext, value: Stock) => {
+export const SetArrayConcat = async ({ state }: IAppContext, value: Stock) => {
   state.stock.next_url = value.next_url
   if (state.stock.results.length < 16) {
     state.stock.results = state.stock.results.concat(value.results)
