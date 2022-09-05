@@ -33,11 +33,10 @@ export const NextPage = async ({ state, actions }: IAppContext, value: any) => {
     state.stock.results = [...a];
   } else {
     await actions.Stock.LoadMoreStocks();
-    if(state.base.error.length == 0){
-      state.base.count = state.base.count + 1;
-      state.base.currentPage = state.base.count;
-      console.log("next button loading more....");
-    }
+    state.base.count = state.base.count + 1;
+    state.base.currentPage = state.base.count;
+    console.log("next button loading more....");
+    
   }
 
 };

@@ -8,17 +8,9 @@ export const GetAllStocks = async ({ state, actions }: IAppContext) => {
     .get<Stock>(process.env.NEXT_PUBLIC_GETALLSTOCKS + "")
     .then((res) => {
       console.log("Loading more");
-      state.stock.next_url = res.data.next_url;
-      if (state.stock.results.length < 16) {
-        state.stock.results = state.stock.results.concat(res.data.results);
-      } else {
-        state.stock.results = res.data.results;
+      if(res){
+        actions.Stock.SetArrayConcat(res.data)
       }
-      // state.stock.results = state.stock.results.concat(res.data.results)
-      if (state.stock.results.length == 16) {
-        state.base.memory = [... new Set(state.base.memory.concat(state.stock.results))];
-      }
-  
       // console.log('this is more states',res.data.results)
       actions.base.ToggleLoading()
   
@@ -26,7 +18,7 @@ export const GetAllStocks = async ({ state, actions }: IAppContext) => {
     .catch((err) => {
         state.base.error = err.response.data.error
         actions.base.ToggleLoading()
-      console.log(err);
+        console.log(err);
     });
   }
 
@@ -39,14 +31,8 @@ export const GetAllStocks = async ({ state, actions }: IAppContext) => {
       )
       .then((res) => {
         console.log("Loading more");
-        state.stock.next_url = res.data.next_url;
-        if (state.stock.results.length < 16) {
-          state.stock.results = state.stock.results.concat(res.data.results);
-        } else {
-          state.stock.results = res.data.results;
-        }
-        if (state.stock.results.length == 16) {
-          state.base.memory = [... new Set(state.base.memory.concat(state.stock.results))];
+        if(res){
+            actions.Stock.SetArrayConcat(res.data)
         }
         actions.base.ToggleLoading()
       })
@@ -60,37 +46,37 @@ export const GetAllStocks = async ({ state, actions }: IAppContext) => {
     }
   };
 
-  export const LoadMoreStocks = async ({ state, actions }: IAppContext, value: any) => {
+  export const LoadMoreStocks = async ({ state, actions }: IAppContext) => {
     actions.base.ToggleLoading()
     await axios
       .get<Stock>(state.stock.next_url + process.env.NEXT_PUBLIC_SELECTIONQUERY+'')
       .then((res) => {
         console.log("Loading more");
         if(res){
-            state.stock.next_url = res.data.next_url;
-            if (state.stock.results.length < 16) {
-            state.stock.results = state.stock.results.concat(res.data.results);
-            } else {
-                state.stock.results = res.data.results;
-            }
-            // state.results = state.results.concat(res.data.results)
-            if (state.stock.results.length == 16) {
-            state.base.memory = [... new Set(state.base.memory.concat(state.stock.results))];
-            }
+            actions.Stock.SetArrayConcat(res.data)
         }
-        
-  
+        actions.base.ResetErrorMsg()
         actions.base.ToggleLoading()
-  
-        // console.log('this is more states',res.data.results)
       })
       .catch((err) => {
         state.base.error = err.response.data.error
         setTimeout(async ()=>{
             await actions.Stock.LoadMoreStocks()
             await actions.base.ToggleLoading()
-        },30000)
+        },35000)
         
         console.log(err);
       });
   };
+
+export const SetArrayConcat = async ({ state,actions }: IAppContext, value:Stock) => {
+    state.stock.next_url = value.next_url;
+    if (state.stock.results.length < 16) {
+    state.stock.results = state.stock.results.concat(value.results);
+    } else {
+        state.stock.results = value.results;
+    }
+    if (state.stock.results.length == 16) {
+    state.base.memory = [... new Set(state.base.memory.concat(state.stock.results))];
+    }
+}
