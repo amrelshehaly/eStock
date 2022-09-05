@@ -3,7 +3,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import Props from './interface'
 import useStyles from './style'
 
-const SearchBar: FC<Props> = ({ setSearch, onSubmit, search}) => {
+const SearchBar: FC<Props> = ({ setSearch, onSubmit, search }) => {
   // const [value, setValue] = useState<string>('')
 
   // const submit = (event: React.KeyboardEvent<HTMLInputElement>) => {

@@ -1,1 +1,1 @@
-export const dummyEffect = () => null;
+export const dummyEffect = () => null

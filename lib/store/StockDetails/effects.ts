@@ -1,1 +1,1 @@
-export const StocksDetailsEffect = () => null;
+export const StocksDetailsEffect = () => null

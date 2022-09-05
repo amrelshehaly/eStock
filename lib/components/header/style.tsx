@@ -5,9 +5,9 @@ export const useStyles = makeStyles((theme: Theme) => ({
   root: {},
   containers: {
     background: theme.palette.primary.main,
-    height:'100px',
+    height: '100px',
   },
-  header:{
+  header: {
     padding: '28px',
     color: 'white',
     fontSize: '30px',
