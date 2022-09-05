@@ -25,7 +25,7 @@ class MyApp extends App {
       this.overmind = createOvermind(storeConfig,{
         devtools: true // defaults to 'localhost:3031'
       });
-      this.overmind.actions.changePage(mutations);
+      this.overmind.actions.base.changePage(mutations);
     } else {
       this.overmind = createOvermindSSR(storeConfig);
       rehydrate(this.overmind.state, mutations);
@@ -44,7 +44,7 @@ class MyApp extends App {
   }
 
   componentDidUpdate() {
-    this.overmind.actions.changePage(this.props.pageProps.mutations || []);
+    this.overmind.actions.base.changePage(this.props.pageProps.mutations || []);
   }
 
   render() {

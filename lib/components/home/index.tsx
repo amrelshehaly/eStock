@@ -7,24 +7,16 @@ import useStyle from "./style";
 import { useAppState, useActions } from "@lib/store";
 import ListItems from "../../common/ListItems";
 import { useRouter } from 'next/router'
-import {StockDetailsState} from '@lib/store/StockDetails'
 
 
 
 const DashboardModule = () => {
   const classes = useStyle();
-  const { count, next_url, results, currentPage, startSearching,search } = useAppState();
-  const {
-    LoadMoreStocks,
-    ClearResults,
-    NextPage,
-    PrevPage,
-    SearchForStock,
-    SetSearching,
-    ChangeStartSearching,
-    ShowAllDetails,
-    
-  } = useActions();
+  const { count, currentPage, startSearching,search } = useAppState().base;
+  const {next_url, results} = useAppState().stock
+  const {NextPage, ChangeStartSearching, ClearResults, PrevPage, SetSearching } = useActions().base
+  const {ShowAllDetails} = useActions().StockDetails
+  const { LoadMoreStocks, SearchForStock} = useActions().Stock
   // const [search, setSearch] = useState<string>("");
 
   const router = useRouter()
@@ -36,10 +28,10 @@ const DashboardModule = () => {
     }
   };
 
-  useEffect(()=>{
-    console.log("prev", StockDetailsState.StockPreviousState)
-    console.log(StockDetailsState.StockDetailsState)
-  },[])
+  // useEffect(()=>{
+  //   console.log("prev", StockDetailsState.StockPreviousState)
+  //   console.log(StockDetailsState.StockDetailsState)
+  // },[])
 
   return (
     <Container className={classes.containers}>

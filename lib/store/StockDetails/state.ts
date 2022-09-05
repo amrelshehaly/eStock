@@ -1,25 +1,5 @@
-export interface PreviousClose {
-  c: number;
-  o: number;
-  h: number;
-  l: number;
-}
 
-// interface PreviousCloseDetail
-
-export interface StockDetails {
-  ticker: string;
-  name?: string;
-  branding: {
-    icon_url?: string;
-    logo_url?: string;
-  };
-  description?: string;
-  sic_description?: string;
-  homepage_url?: string;
-}
-
-export const StockDetailsState: StockDetails = {
+export const StockDetailsState = {
   description: "",
   name: "",
   branding: {
@@ -31,7 +11,7 @@ export const StockDetailsState: StockDetails = {
   homepage_url: "",
 };
 
-export const StockPreviousState : PreviousClose = {
+export const StockPreviousState  = {
     c:0,
     l:0,
     h:0,

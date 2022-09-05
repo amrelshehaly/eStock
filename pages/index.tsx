@@ -3,19 +3,19 @@ import { createOvermindSSR } from "overmind";
 import React from "react";
 import { storeConfig, useAppState, useActions } from "@lib/store";
 import Main from '@lib/components'
-import { state } from "@lib/store/base/state";
+import { state } from "@lib/store/state";
 
 type Props = {};
 
 export const getStaticProps: GetStaticProps = async () => {
   const overmind = createOvermindSSR(storeConfig);
 
-  await overmind.actions
+  await overmind.actions.base
     .onInitializeOvermind()
     .then((res) => {
       console.log("calling Initialize");
-      overmind.state.results = res.data.results;
-      overmind.state.next_url = res.data.next_url;
+      overmind.state.stock.results = res.data.results;
+      overmind.state.stock.next_url = res.data.next_url;
     })
     .catch((err) => {
       console.error("hena fel index");

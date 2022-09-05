@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import {StockDetailsState} from '@lib/store/StockDetails'
+import {useAppState} from '@lib/store'
 import { Card, Container, Typography, CardContent, CardHeader, Avatar, Box,Grid} from '@mui/material'
 import theme from '@lib/styles/mui_theme';
 import useStyles from './style'
@@ -8,10 +8,12 @@ import useStyles from './style'
 const StockDetailsComponent = () => {
 
     const classes = useStyles()
+    const {branding, ticker, description, name} = useAppState().stockDetails
+    const {c,h, l, o} = useAppState().previousClose
   return (
     <Container>
-        {StockDetailsState.StockDetailsState.branding.logo_url && <Box className={classes.ImageCard}>
-            <img  src={StockDetailsState.StockDetailsState.branding.logo_url}  alt="IconImage" />:
+        {branding.logo_url && <Box className={classes.ImageCard}>
+            <img  src={branding.logo_url}  alt="IconImage" />:
         </Box>}
 
         <Card className={classes.CardDescription} variant="outlined" sx={{display:'flex'}} >
@@ -20,7 +22,7 @@ const StockDetailsComponent = () => {
                     avatar={
                     <Avatar sx={{ bgcolor: theme.palette.secondary.main, width: 56, height: 56 }} aria-label="recipe">
                         {
-                            <Typography>{StockDetailsState.StockDetailsState.ticker.charAt(0)}</Typography>
+                            <Typography>{ticker.charAt(0)}</Typography>
                         }
                     </Avatar>
                     }
@@ -28,17 +30,17 @@ const StockDetailsComponent = () => {
             </CardContent>
                 <Box className={classes.HeaderContent}>
                     <Typography variant='h4' component='div'>
-                        {StockDetailsState.StockDetailsState.ticker}
+                        {ticker}
                     </Typography>
                     <Typography variant='h5' component='div'>
-                        {StockDetailsState.StockDetailsState.name}
+                        {name}
                     </Typography>
                 </Box>
         </Card>
-        {StockDetailsState.StockDetailsState.description && <Card>
+        {description && <Card>
             <CardContent>
                 <Typography variant='h6' component='div'>
-                    {StockDetailsState.StockDetailsState.description}
+                    {description}
                 </Typography>
             </CardContent>
         </Card>}
@@ -53,7 +55,7 @@ const StockDetailsComponent = () => {
                             Close
                         </Typography>
                         <Typography>
-                             {StockDetailsState.StockPreviousState.c}
+                             {c}
                         </Typography>
                     </Box>
                     <Box>
@@ -61,7 +63,7 @@ const StockDetailsComponent = () => {
                             Open
                         </Typography>
                         <Typography>
-                            {StockDetailsState.StockPreviousState.o}
+                            {o}
                         </Typography>
                     </Box>
                     
@@ -72,7 +74,7 @@ const StockDetailsComponent = () => {
                             Low
                         </Typography>
                         <Typography >
-                            {StockDetailsState.StockPreviousState.l}
+                            {l}
                         </Typography>
                     </Box>
                     <Box>
@@ -80,7 +82,7 @@ const StockDetailsComponent = () => {
                             High
                         </Typography>
                         <Typography>
-                             {StockDetailsState.StockPreviousState.h}
+                             {h}
                         </Typography>
                     </Box>
                 </Box>

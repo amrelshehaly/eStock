@@ -9,7 +9,7 @@ interface Props {
 const SnackBar: FC<Props> = ({ error, resetErrorMsg }) => {
   return (
     <div>
-      {error.length > 0 && (
+      {error && error.length > 0 && (
         <Snackbar
           open={error.length > 0}
           onClose={resetErrorMsg}

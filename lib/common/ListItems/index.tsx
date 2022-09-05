@@ -36,7 +36,8 @@ const ListItems: FC<DataList> = ({
 }) => {
   const classes = useStyles();
 
-  const { next_url, currentPage, memory } = useAppState();
+  const { currentPage, memory } = useAppState().base;
+  const {next_url} = useAppState().stock
   console.log('this is memory', memory)
 
   const router = useRouter()
@@ -69,6 +70,15 @@ const ListItems: FC<DataList> = ({
         dataLength={results.length}
         next={() => fetchMoreData()}
         hasMore={true}
+        refreshFunction={()=>LoadMore()}
+        pullDownToRefresh
+        pullDownToRefreshThreshold={50}
+        pullDownToRefreshContent={
+          <h3 style={{ textAlign: 'center' }}>&#8595; Pull down to refresh</h3>
+        }
+        releaseToRefreshContent={
+          <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
+        }
         loader={results.length < 16 && <h4 style={{ color: "gold", fontSize: "30px" }}>Loading...</h4>}
         endMessage={
           <div style={{ color: "red" }}>yay , you finished loading </div>

@@ -7,10 +7,10 @@ import { useAppState, useActions } from "@lib/store";
 
 
 const Header = () => {
-  const { page } = useAppState();
+  const { page } = useAppState().base;
   const classes = useStyles();
   // const { toggleTheme } = useActions();
-  const {ChangePageValue} = useActions()
+  const {ChangePageValue} = useActions().base
 
 
   return (

@@ -7,8 +7,8 @@ import Loading from '@lib/common/loading'
 import SnackBar from '@lib/common/snackbar'
 
 const index = () => {
-    const {page,loading, error} = useAppState()
-    const {ResetErrorMsg} = useActions()
+    const {page,loading, error} = useAppState().base
+    const {ResetErrorMsg} = useActions().base
   return (
     <>
     <Header />
