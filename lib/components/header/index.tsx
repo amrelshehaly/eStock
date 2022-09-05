@@ -1,5 +1,4 @@
-import React, { FC } from 'react'
-import styled from '@emotion/styled'
+import React from 'react'
 import useStyles from './style'
 import { Typography, IconButton } from '@material-ui/core'
 import { ArrowBack } from '@mui/icons-material'
@@ -8,7 +7,6 @@ import { useAppState, useActions } from '@lib/store'
 const Header = () => {
   const { page } = useAppState().base
   const classes = useStyles()
-  // const { toggleTheme } = useActions();
   const { ChangePageValue } = useActions().base
 
   return (

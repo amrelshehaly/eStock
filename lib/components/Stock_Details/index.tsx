@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAppState } from '@lib/store'
-import { Card, Container, Typography, CardContent, CardHeader, Avatar, Box, Grid } from '@mui/material'
+import { Card, Container, Typography, CardContent, CardHeader, Avatar, Box } from '@mui/material'
 import theme from '@lib/styles/mui_theme'
 import useStyles from './style'
 

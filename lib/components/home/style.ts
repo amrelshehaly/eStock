@@ -1,8 +1,6 @@
-import { Theme } from '@mui/material'
 import { makeStyles } from '@material-ui/core/styles'
 
-export const useStyles = makeStyles((theme: Theme) => ({
-  root: {},
+export const useStyles = makeStyles(() => ({
   containers: {
     marginTop: '20px',
   },

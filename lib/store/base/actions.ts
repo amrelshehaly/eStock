@@ -11,7 +11,7 @@ export const onInitializeOvermind = async () => {
   return await axios.get<Stock>(process.env.NEXT_PUBLIC_GETALLSTOCKS + '')
 }
 
-export const ClearResults = async ({ state }: IAppContext, value: any) => {
+export const ClearResults = async ({ state }: IAppContext) => {
   state.stock.results = []
   state.base.memory = []
   state.base.count = 0
@@ -22,7 +22,7 @@ export const ClearResults = async ({ state }: IAppContext, value: any) => {
   }
 }
 
-export const NextPage = async ({ state, actions }: IAppContext, value: any) => {
+export const NextPage = async ({ state, actions }: IAppContext) => {
   if (state.base.currentPage != state.base.count) {
     state.base.currentPage = state.base.currentPage + 1
     state.base.index.start = state.base.currentPage * 16
@@ -33,11 +33,10 @@ export const NextPage = async ({ state, actions }: IAppContext, value: any) => {
     await actions.Stock.LoadMoreStocks()
     state.base.count = state.base.count + 1
     state.base.currentPage = state.base.count
-    console.log('next button loading more....')
   }
 }
 
-export const PrevPage = ({ state }: IAppContext, value: any) => {
+export const PrevPage = ({ state }: IAppContext) => {
   state.base.currentPage = state.base.currentPage - 1
   state.base.index.start = state.base.currentPage * 16
   state.base.index.end = state.base.currentPage * 16 + 16
@@ -68,7 +67,7 @@ export const SetSearching = async ({ state, actions }: IAppContext, value = '') 
   }
 }
 
-export const ChangePageValue = async ({ state, actions }: IAppContext) => {
+export const ChangePageValue = async ({ state }: IAppContext) => {
   if (state.base.page == 'Home') {
     state.base.page = 'Stock Details'
   } else {

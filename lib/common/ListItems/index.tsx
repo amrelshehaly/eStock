@@ -1,12 +1,10 @@
-import React, { useState, FC, useEffect, useRef, memo } from 'react'
+import React, {  FC, memo } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { ArrowBack, ArrowForward } from '@mui/icons-material'
 import useStyles from './styles'
-import { useAppState, useActions } from '@lib/store'
-import { useRouter } from 'next/router'
+import { useAppState } from '@lib/store'
 
-import { ArrowUpward } from '@mui/icons-material'
-import { Box, Button, Typography, useTheme, useMediaQuery, Card, CardContent, Fab } from '@mui/material'
+import { Box, Button, Typography, Card, CardContent } from '@mui/material'
 
 interface DataList {
   results: any[]
@@ -17,20 +15,17 @@ interface DataList {
   setTicker: (ticker: string) => void
 }
 
-const ListItems: FC<DataList> = ({ results, LoadMore, ClearArray, setNextPage, setPrevPage, setTicker }) => {
+const ListItems: FC<DataList> = ({ results, LoadMore, setNextPage, setPrevPage, setTicker }) => {
   const classes = useStyles()
 
-  const { currentPage, memory } = useAppState().base
+  const { currentPage } = useAppState().base
   const { next_url } = useAppState().stock
-  console.log('this is memory', memory)
 
-  const router = useRouter()
 
   const fetchMoreData = () => {
     if (results.length == 16) {
       console.log('the arra is 16 in length')
     } else {
-      console.log('its loading more')
       LoadMore()
     }
   }
@@ -44,7 +39,6 @@ const ListItems: FC<DataList> = ({ results, LoadMore, ClearArray, setNextPage, s
   }
 
   const handlePreviousPage = async () => {
-    console.log('clicked')
     setPrevPage()
   }
 
@@ -100,11 +94,6 @@ const ListItems: FC<DataList> = ({ results, LoadMore, ClearArray, setNextPage, s
           )}
         </Box>
       }
-      {/* <Box>
-            <Fab color="secondary" aria-label="edit">
-                <ArrowUpward />
-            </Fab>
-        </Box> */}
     </Box>
   )
 }

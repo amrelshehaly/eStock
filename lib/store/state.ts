@@ -1,4 +1,3 @@
-import { derived } from 'overmind'
 import { base } from '@lib/models/base.interface'
 import { Stock } from '@lib/models/stock.interface'
 import { StockDetails, PreviousClose } from '@lib/models/stockdetails.interface'
