@@ -66,7 +66,7 @@ describe('Searching for a ticker', () => {
           },
         },
       },
-      (state) => {
+      (state: { base: { search: string } }) => {
         state.base.search = 'AAPL'
       },
     )
