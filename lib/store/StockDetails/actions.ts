@@ -1,16 +1,11 @@
 import { IAppContext } from '@lib/store'
-import axios from 'axios'
 import * as R from 'ramda'
 import { PreviousClose, StockDetails } from '@lib/models/stockdetails.interface'
 
-const headers = {
-  Authorization: `Bearer ${process.env.NEXT_PUBLIC_APIKEY}`,
-}
 
-export const getTickerDetails = async ({ state, actions }: IAppContext, ticker: string) => {
-  actions.base.ToggleLoading()
-  await axios
-    .get<StockDetails>(`https://api.polygon.io/v3/reference/tickers/${ticker}`, { headers })
+export const getTickerDetails = async ({ state, actions, effects }: IAppContext, ticker: string) => {
+    actions.base.ToggleLoading()
+    await  effects.StockDetails.api.getTickerDetails(ticker)
     .then(async ({ data }) => {
       const results: StockDetails | undefined = R.path(['results'], data)
       if (results) {
@@ -33,10 +28,9 @@ export const getTickerDetails = async ({ state, actions }: IAppContext, ticker: 
     })
 }
 
-export const getPreviousClose = async ({ state, actions }: IAppContext, ticker: string) => {
-  actions.base.ToggleLoading()
-  await axios
-    .get<PreviousClose>(`https://api.polygon.io/v2/aggs/ticker/${ticker}/prev`, { headers })
+export const getPreviousClose = async ({ state, actions, effects }: IAppContext, ticker: string) => {
+    actions.base.ToggleLoading()
+    await effects.StockDetails.api.getPreviousClose(ticker)
     .then(({ data }) => {
       const results: PreviousClose | undefined = R.path(['results', '0'], data)
       if (results) {
@@ -86,13 +80,10 @@ export const ShowAllDetails = async ({ state, actions }: IAppContext, ticker: st
   }
 }
 
-export const getImageURL = async ({ state, actions }: IAppContext, url: string) => {
+export const getImageURL = async ({ state, actions, effects }: IAppContext, url: string) => {
   actions.base.ToggleLoading()
-  await axios
-    .get(`${url}`, {
-      headers,
-      responseType: 'arraybuffer',
-    })
+    
+    await effects.StockDetails.api.getTickerPicture(url)
     .then((res) => {
       const data = `data:${res.headers['content-type']};base64,${new Buffer(res.data, 'binary').toString('base64')}`
       // StockDetailsState.branding.icon_url = data

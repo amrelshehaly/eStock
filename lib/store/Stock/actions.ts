@@ -1,11 +1,10 @@
-import axios from 'axios'
 import { IAppContext } from '@lib/store'
 import { Stock } from '@lib/models/stock.interface'
 
-export const GetAllStocks = async ({ state, actions }: IAppContext) => {
+export const GetAllStocks = async ({ state, actions, effects }: IAppContext) => {
   actions.base.ToggleLoading()
-  await axios
-    .get<Stock>(process.env.NEXT_PUBLIC_GETALLSTOCKS + '')
+   
+    await effects.Stock.api.getTickers()
     .then((res) => {
       if (res) {
         actions.Stock.SetArrayConcat(res.data)
@@ -19,11 +18,10 @@ export const GetAllStocks = async ({ state, actions }: IAppContext) => {
     })
 }
 
-export const SearchForStock = async ({ state, actions }: IAppContext) => {
+export const SearchForStock = async ({ state, actions, effects }: IAppContext) => {
   if (state.base.search.length > 0) {
-    actions.base.ToggleLoading()
-    await axios
-      .get<Stock>(`${process.env.NEXT_PUBLIC_GETALLSTOCKS}&search=${state.base.search}`)
+      actions.base.ToggleLoading()
+      await effects.Stock.api.searchForTicker(state.base.search)
       .then((res) => {
         if (res) {
           actions.Stock.SetArrayConcat(res.data)
@@ -40,10 +38,10 @@ export const SearchForStock = async ({ state, actions }: IAppContext) => {
   }
 }
 
-export const LoadMoreStocks = async ({ state, actions }: IAppContext) => {
+export const LoadMoreStocks = async ({ state, actions, effects }: IAppContext) => {
   actions.base.ToggleLoading()
-  await axios
-    .get<Stock>(state.stock.next_url + process.env.NEXT_PUBLIC_SELECTIONQUERY + '')
+   
+    await effects.Stock.api.getNextItems(state.stock.next_url)
     .then((res) => {
       if (res) {
         actions.Stock.SetArrayConcat(res.data)

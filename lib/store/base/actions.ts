@@ -3,12 +3,12 @@ import { rehydrate } from 'overmind'
 import { Stock } from '@lib/models/stock.interface'
 import axios from 'axios'
 
-export const onInitializeOvermind = async () => {
+export const onInitializeOvermind = async ({ effects }: IAppContext) => {
   /**
    * Use effects and other actions onInitialize
    */
 
-  return await axios.get<Stock>(process.env.NEXT_PUBLIC_GETALLSTOCKS + '')
+  return effects.Stock.api.getTickers()
 }
 
 export const ClearResults = async ({ state }: IAppContext) => {

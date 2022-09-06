@@ -48,11 +48,6 @@ const ListItems: FC<DataList> = ({ results, LoadMore, setNextPage, setPrevPage, 
         dataLength={results.length}
         next={() => fetchMoreData()}
         hasMore={true}
-        refreshFunction={() => LoadMore()}
-        pullDownToRefresh
-        pullDownToRefreshThreshold={50}
-        pullDownToRefreshContent={<h3 style={{ textAlign: 'center' }}>&#8595; Pull down to refresh</h3>}
-        releaseToRefreshContent={<h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>}
         loader={results.length < 16 && <h4 style={{ color: 'gold', fontSize: '30px' }}>Loading...</h4>}
         endMessage={<div style={{ color: 'red' }}>yay , you finished loading </div>}
       >
