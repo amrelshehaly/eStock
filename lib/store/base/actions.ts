@@ -3,12 +3,17 @@ import { rehydrate } from 'overmind'
 import { Stock } from '@lib/models/stock.interface'
 import axios from 'axios'
 
-export const onInitializeOvermind = async ({ effects }: IAppContext) => {
+export const onInitializeOvermind = async ({state, effects }: IAppContext) => {
   /**
    * Use effects and other actions onInitialize
    */
-
-  return effects.Stock.api.getTickers()
+  await effects.Stock.api.getTickers().then((res) => {
+    state.stock.results = res.results
+    state.stock.next_url = res.next_url
+  })
+  .catch((err) => {
+    console.error(err)
+  })
 }
 
 export const ClearResults = async ({ state }: IAppContext) => {

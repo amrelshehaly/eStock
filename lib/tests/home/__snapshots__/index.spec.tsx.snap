@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`calling an api should get tickers list from the api 1`] = `[]`;

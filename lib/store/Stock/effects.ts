@@ -6,16 +6,16 @@ const headers = {
   }
 
 export const api = {
-    getTickers: async (): Promise<any> => {
+    getTickers: async (): Promise<Stock> => {
         const response = await axios.get<Stock>(`${process.env.NEXT_PUBLIC_GETALLSTOCKS}`, { headers })
-        return response
+        return response.data
     },
-    searchForTicker: async (search:string) : Promise<any> => {
+    searchForTicker: async (search:string) : Promise<Stock> => {
         const response = await axios.get<Stock>(`${process.env.NEXT_PUBLIC_GETALLSTOCKS}&search=${search}`,{ headers })
-        return response
+        return response.data
     },
-    getNextItems : async (nextUrl:string) : Promise<any> => {
+    getNextItems : async (nextUrl:string) : Promise<Stock> => {
         const response  = await axios.get<Stock>(nextUrl+'&limit=8',{ headers })
-        return response
+        return response.data
     },
 }

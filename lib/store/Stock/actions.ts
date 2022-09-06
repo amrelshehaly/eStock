@@ -7,7 +7,7 @@ export const GetAllStocks = async ({ state, actions, effects }: IAppContext) => 
     await effects.Stock.api.getTickers()
     .then((res) => {
       if (res) {
-        actions.Stock.SetArrayConcat(res.data)
+        actions.Stock.SetArrayConcat(res)
       }
       actions.base.ToggleLoading()
     })
@@ -24,7 +24,7 @@ export const SearchForStock = async ({ state, actions, effects }: IAppContext) =
       await effects.Stock.api.searchForTicker(state.base.search)
       .then((res) => {
         if (res) {
-          actions.Stock.SetArrayConcat(res.data)
+          actions.Stock.SetArrayConcat(res)
         }
         actions.base.ToggleLoading()
       })
@@ -44,7 +44,7 @@ export const LoadMoreStocks = async ({ state, actions, effects }: IAppContext) =
     await effects.Stock.api.getNextItems(state.stock.next_url)
     .then((res) => {
       if (res) {
-        actions.Stock.SetArrayConcat(res.data)
+        actions.Stock.SetArrayConcat(res)
       }
       actions.base.ResetErrorMsg()
       actions.base.ToggleLoading()

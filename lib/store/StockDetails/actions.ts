@@ -6,8 +6,8 @@ import { PreviousClose, StockDetails } from '@lib/models/stockdetails.interface'
 export const getTickerDetails = async ({ state, actions, effects }: IAppContext, ticker: string) => {
     actions.base.ToggleLoading()
     await  effects.StockDetails.api.getTickerDetails(ticker)
-    .then(async ({ data }) => {
-      const results: StockDetails | undefined = R.path(['results'], data)
+    .then(async (res) => {
+      const results: StockDetails | undefined = R.path(['results'], res)
       if (results) {
         state.stockDetails.ticker = results.ticker
         state.stockDetails.name = results.name
@@ -31,8 +31,8 @@ export const getTickerDetails = async ({ state, actions, effects }: IAppContext,
 export const getPreviousClose = async ({ state, actions, effects }: IAppContext, ticker: string) => {
     actions.base.ToggleLoading()
     await effects.StockDetails.api.getPreviousClose(ticker)
-    .then(({ data }) => {
-      const results: PreviousClose | undefined = R.path(['results', '0'], data)
+    .then((res) => {
+      const results: PreviousClose | undefined = R.path(['results', '0'], res)
       if (results) {
         state.previousClose.c = results.c
         state.previousClose.l = results.l
