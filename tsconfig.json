@@ -8,6 +8,7 @@
     "target": "esnext",
     "module": "esnext",
     "jsx": "preserve",
+    "types": ["cypress", "node"],
     "lib": ["dom", "es2017"],
     "moduleResolution": "node",
     "allowJs": true,
@@ -22,5 +23,5 @@
     "isolatedModules": true
   },
   "exclude": ["node_modules"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src","./cypress.d.ts"]
 }

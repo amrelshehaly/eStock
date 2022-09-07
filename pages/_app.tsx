@@ -21,6 +21,12 @@ class MyApp extends App {
         devtools: true, // defaults to 'localhost:3031'
       })
       this.overmind.actions.base.changePage(mutations)
+      if (window.Cypress) {
+        window.overmind = this.overmind
+        if (window.Cypress.setOvermind) {
+          window.Cypress.setOvermind(this.overmind)
+        }
+      }
     } else {
       this.overmind = createOvermindSSR(storeConfig)
       rehydrate(this.overmind.state, mutations)
