@@ -12,6 +12,7 @@ const SearchBar: FC<Props> = ({ setSearch, onSubmit, search }) => {
       <input
         type='text'
         placeholder='Search'
+        className='inputField'
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         onKeyPress={(e) => onSubmit(e)}

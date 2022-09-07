@@ -88,6 +88,6 @@ export const ToggleLoading = ({ state }: IAppContext) => {
   state.base.loading = !state.base.loading
 }
 
-export const changePage = ({ state }: IAppContext, mutations: any) => {
-  rehydrate(state, mutations || [])
+export const changePage = async ({ state, actions }: IAppContext, value: any[] = []) => {
+  rehydrate(state, value || [])
 }

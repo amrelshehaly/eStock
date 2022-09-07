@@ -1,25 +1,25 @@
 // <reference types="cypress" />
 // <reference path="./custom-commands.d.ts" />
 
-describe('Overmind state', () => {
+describe('Testing tickers load behaviour when scrolling and pressing next button', () => {
   beforeEach(() => {
     cy.visit('/')
   })
 
   // Cypress._.times(3, () => {
-  it('changes values in state object', function () {
-    Cypress._.times(3, () => {
-      cy.window().its('overmind.state.base.error').should('equal', '')
+  it('changes values in state object, loading only 2 to maintain stability of the app', function () {
+    Cypress._.times(1, (i) => {
+      // cy.window().its('overmind.state.base.error').should('equal', '')
       cy.wait(5000)
-      cy.scrollTo(0, 500)
+      cy.scrollTo(0, 800)
       cy.wait(5000)
-      cy.get('.MuiButtonBase-root').click()
+      cy.get('.NextBtn').click()
+      cy.wait(5000)
+      cy.scrollTo(0, 800)
     })
   })
 
-  // afterEach(()=>{
-  //   cy.scrollTo(0, 500)
-  //   cy.get('.MuiButtonBase-root').click()
-  // })
-  // })
+  afterEach(()=>{
+    cy.window().its('overmind.state.base.memory').should('have.length.greaterThan', 0)
+  })
 })

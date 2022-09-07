@@ -41,10 +41,10 @@ Cypress.Commands.add('overmind', () => {
   
     return (
       cy
-        .window({ log: false })
+        .window({ log : false })
         // instead of .its('overmind') that always logs to the console
         // use ".then" shortcut (but without retry)
-        .then({ log: false }, win => {
+        .then(win => {
           overmind = win.overmind
           cmd.end()
           return overmind

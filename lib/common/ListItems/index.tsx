@@ -60,7 +60,7 @@ const ListItems: FC<DataList> = ({ results, LoadMore, setNextPage, setPrevPage, 
             key={index}
             onClick={() => setTicker(val.ticker)}
           >
-            <CardContent>
+            <CardContent className='ticker'>
               <Typography variant='h5' component='div'>
                 {val.ticker}
               </Typography>
@@ -81,7 +81,7 @@ const ListItems: FC<DataList> = ({ results, LoadMore, setNextPage, setPrevPage, 
           )}
           {next_url && next_url.length > 0 && (
             <Box className={classes.nextBox}>
-              <Button onClick={handleNextPage} variant='contained'>
+              <Button onClick={handleNextPage} variant='contained' className='NextBtn'>
                 Next
                 <ArrowForward />
               </Button>

@@ -22,6 +22,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "**/*.config.ts", "**/*.setup.ts"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src","./cypress.d.ts"]
 }

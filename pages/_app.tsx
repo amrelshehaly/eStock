@@ -8,7 +8,7 @@ import { MuiThemeProvider, CssBaseline } from '@material-ui/core'
 import theme from '../lib/styles/mui_theme'
 
 class MyApp extends App {
-  private readonly overmind: Overmind<IAppContext>
+  private readonly overmind: Overmind<typeof storeConfig>
   private disposeReaction: any
 
   constructor(props: any) {
