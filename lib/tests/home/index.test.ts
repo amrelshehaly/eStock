@@ -1,7 +1,6 @@
-import React from 'react'
+import "@testing-library/jest-dom";
 import { createOvermindMock } from 'overmind'
 import { storeConfig } from '../../store/index'
-import { promises } from 'stream'
 import { Stock } from '@lib/models/stock.interface'
 
 describe('base state', () => {
