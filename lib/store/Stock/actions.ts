@@ -29,9 +29,14 @@ export const SearchForStock = async ({ state, actions, effects }: IAppContext) =
         actions.base.ToggleLoading()
       })
       .catch((err: any) => {
-        console.error(err)
         state.base.error = err.response.data.error
-        actions.base.ToggleLoading()
+        const timer = setTimeout(async () => {              // I mad a setTimeout to ensure consistency in project flow as the api requires an upgrade to 
+                                                            // make serveral consecutive request with no time limits
+          await actions.Stock.SearchForStock()
+          await actions.base.ToggleLoading()
+          }, 30000)
+          console.error(err)
+          return () => clearTimeout(timer)   
       })
   } else {
     state.base.startSearching = false
@@ -51,12 +56,14 @@ export const LoadMoreStocks = async ({ state, actions, effects }: IAppContext) =
     })
     .catch((err) => {
       state.base.error = err.response.data.error
-      setTimeout(async () => {
+      console.error(err)
+      const timer = setTimeout(async () => {              // I mad a setTimeout to ensure consistency in project flow as the api requires an upgrade to 
+                                                          // make serveral consecutive request with no time limits
         await actions.Stock.LoadMoreStocks()
         await actions.base.ToggleLoading()
-      }, 35000)
+      }, 30000)
 
-      console.error(err)
+      return () => clearTimeout(timer)   
     })
 }
 

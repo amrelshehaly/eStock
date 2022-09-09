@@ -8,7 +8,7 @@ import ListItems from '../../common/ListItems'
 const DashboardModule = () => {
   const classes = useStyle()
   const { count, currentPage, startSearching, search } = useAppState().base
-  const { results } = useAppState().stock
+  const { results, next_url } = useAppState().stock
   const { NextPage, ChangeStartSearching, ClearResults, PrevPage, SetSearching } = useActions().base
   const { ShowAllDetails } = useActions().StockDetails
   const { LoadMoreStocks, SearchForStock } = useActions().Stock
@@ -33,6 +33,8 @@ const DashboardModule = () => {
           ClearArray={ClearResults}
           setNextPage={NextPage}
           setPrevPage={PrevPage}
+          next_url={next_url}
+          current_page={currentPage}
         />
       </Box>
     </Container>

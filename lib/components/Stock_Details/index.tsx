@@ -1,13 +1,14 @@
 import React from 'react'
 import { useAppState } from '@lib/store'
-import { Card, Container, Typography, CardContent, CardHeader, Avatar, Box } from '@mui/material'
+import { Card, Container, Typography, CardContent, CardHeader, Avatar, Box, Button, CardActions } from '@mui/material'
 import theme from '@lib/styles/mui_theme'
 import useStyles from './style'
 
 const StockDetailsComponent = () => {
   const classes = useStyles()
-  const { branding, ticker, description, name } = useAppState().stockDetails
+  const { branding, ticker, description, name, sic_description, homepage_url } = useAppState().stockDetails
   const { c, h, l, o } = useAppState().previousClose
+  const details : string[] = ['Close', 'Hight', 'Low', 'Open']
   return (
     <Container>
       {branding.logo_url && (
@@ -17,23 +18,37 @@ const StockDetailsComponent = () => {
       )}
 
       <Card className={classes.CardDescription} variant='outlined' sx={{ display: 'flex' }}>
+        <CardHeader
+          avatar={
+            <Avatar sx={{ bgcolor: theme.palette.secondary.main, width: 56, height: 56 }} aria-label='recipe'>
+              {<Typography>{ticker.charAt(0)}</Typography>}
+            </Avatar>
+          }
+        />
         <CardContent>
-          <CardHeader
-            avatar={
-              <Avatar sx={{ bgcolor: theme.palette.secondary.main, width: 56, height: 56 }} aria-label='recipe'>
-                {<Typography>{ticker.charAt(0)}</Typography>}
-              </Avatar>
-            }
-          />
+          <Box className={classes.HeaderContent}>
+            <Typography variant='h4' component='div'>
+              {ticker}
+            </Typography>
+            <Typography variant='h5' component='div'>
+              {name}
+            </Typography>
+          </Box>
+          <Box sx={{ display: 'block', paddingTop: '20px', paddingBottom: '20px' }}>
+            <Typography component='div'>{sic_description}</Typography>
+            {homepage_url && (
+              <Typography component='div' sx={{ paddingTop: '10px' }}>
+                <Button
+                  className={classes.website}
+                  variant='contained'
+                  onClick={() => window.location.assign(`${homepage_url}`)}
+                >
+                  Visit Website
+                </Button>
+              </Typography>
+            )}
+          </Box>
         </CardContent>
-        <Box className={classes.HeaderContent}>
-          <Typography variant='h4' component='div'>
-            {ticker}
-          </Typography>
-          <Typography variant='h5' component='div'>
-            {name}
-          </Typography>
-        </Box>
       </Card>
       {description && (
         <Card>

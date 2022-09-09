@@ -12,6 +12,9 @@ export const useStyles = makeStyles((theme: Theme) => ({
     color: 'white',
     fontSize: '30px',
     fontWeight: 700,
+    [theme.breakpoints.down('sm')]:{
+      fontSize:'20px',
+    }
   },
   buttons: {
     backgroundColor: 'white !important',

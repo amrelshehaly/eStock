@@ -1,4 +1,4 @@
-import React, {  FC, memo } from 'react'
+import React, { FC, memo } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { ArrowBack, ArrowForward } from '@mui/icons-material'
 import useStyles from './styles'
@@ -8,6 +8,8 @@ import { Box, Button, Typography, Card, CardContent } from '@mui/material'
 
 interface DataList {
   results: any[]
+  next_url: string
+  current_page: number
   LoadMore: () => void
   ClearArray: () => void
   setNextPage: () => void
@@ -15,12 +17,16 @@ interface DataList {
   setTicker: (ticker: string) => void
 }
 
-const ListItems: FC<DataList> = ({ results, LoadMore, setNextPage, setPrevPage, setTicker }) => {
+const ListItems: FC<DataList> = ({
+  results,
+  LoadMore,
+  setNextPage,
+  setPrevPage,
+  setTicker,
+  next_url,
+  current_page,
+}) => {
   const classes = useStyles()
-
-  const { currentPage } = useAppState().base
-  const { next_url } = useAppState().stock
-
 
   const fetchMoreData = () => {
     if (results.length == 16) {
@@ -48,30 +54,33 @@ const ListItems: FC<DataList> = ({ results, LoadMore, setNextPage, setPrevPage, 
         dataLength={results.length}
         next={() => fetchMoreData()}
         hasMore={true}
-        loader={results.length < 16 && <h4 style={{ color: 'gold', fontSize: '30px' }}>Loading...</h4>}
-        endMessage={<div style={{ color: 'red' }}>yay , you finished loading </div>}
+        loader={() => {}}
       >
-        {results.map((val, index) => (
-          <Card
-            style={{
-              border: '1px solid #e0e0e0',
-              marginTop: '5px',
-            }}
-            key={index}
-            onClick={() => setTicker(val.ticker)}
-          >
-            <CardContent className='ticker'>
-              <Typography variant='h5' component='div'>
-                {val.ticker}
-              </Typography>
-              <Typography variant='body2'>{val.name}</Typography>
-            </CardContent>
-          </Card>
-        ))}
+        {results.length > 0 ? (
+          results.map((val, index) => (
+            <Card
+              style={{
+                border: '1px solid #e0e0e0',
+                marginTop: '5px',
+              }}
+              key={index}
+              onClick={() => setTicker(val.ticker)}
+            >
+              <CardContent sx={{cursor:'pointer'}} className='ticker'>
+                <Typography variant='h5' component='div'>
+                  {val.ticker}
+                </Typography>
+                <Typography variant='body2'>{val.name}</Typography>
+              </CardContent>
+            </Card>
+          ))
+        ) : (
+          <div>No Match Found</div>
+        )}
       </InfiniteScroll>
       {
         <Box alignContent='center' className={classes.container}>
-          {currentPage != 0 && (
+          {current_page != 0 && (
             <Box className={classes.prevBox}>
               <Button onClick={handlePreviousPage} variant='contained'>
                 <ArrowBack />

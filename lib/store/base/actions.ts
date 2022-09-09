@@ -62,9 +62,8 @@ export const ChangeStartSearching = async ({ state, actions }: IAppContext) => {
 }
 
 export const SetSearching = async ({ state, actions }: IAppContext, value = '') => {
-  if (value.length > 0) {
-    state.base.search = value
-  } else if (state.base.startSearching == true) {
+  state.base.search = value
+  if (state.base.startSearching == true && state.base.search.length == 0) {
     state.base.startSearching = false
     state.base.search = ''
     await actions.base.ClearResults()
