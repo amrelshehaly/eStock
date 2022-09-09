@@ -1,61 +1,24 @@
 import React, { FC, memo } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { ArrowBack, ArrowForward } from '@mui/icons-material'
-import useStyles from './styles'
-import { useAppState } from '@lib/store'
-
-import { Box, Button, Typography, Card, CardContent } from '@mui/material'
+import { Box, Typography, Card, CardContent } from '@mui/material'
 
 interface DataList {
   results: any[]
-  next_url: string
-  current_page: number
   LoadMore: () => void
-  ClearArray: () => void
-  setNextPage: () => void
-  setPrevPage: () => void
   setTicker: (ticker: string) => void
 }
 
-const ListItems: FC<DataList> = ({
-  results,
-  LoadMore,
-  setNextPage,
-  setPrevPage,
-  setTicker,
-  next_url,
-  current_page,
-}) => {
-  const classes = useStyles()
+const ListItems: FC<DataList> = ({ results, LoadMore, setTicker }) => {
 
   const fetchMoreData = () => {
-    if (results.length == 16) {
-      console.log('the arra is 16 in length')
-    } else {
+    if (results.length != 16) {
       LoadMore()
     }
   }
 
-  const handleNextPage = async () => {
-    // setArray([]);
-    // ClearArray();
-    setNextPage()
-    window.scrollTo(0, 0)
-    // setHasMore(true);
-  }
-
-  const handlePreviousPage = async () => {
-    setPrevPage()
-  }
-
   return (
     <Box>
-      <InfiniteScroll
-        dataLength={results.length}
-        next={() => fetchMoreData()}
-        hasMore={true}
-        loader={() => {}}
-      >
+      <InfiniteScroll dataLength={results.length} next={() => fetchMoreData()} hasMore={true} loader={<h1></h1>}>
         {results.length > 0 ? (
           results.map((val, index) => (
             <Card
@@ -66,7 +29,7 @@ const ListItems: FC<DataList> = ({
               key={index}
               onClick={() => setTicker(val.ticker)}
             >
-              <CardContent sx={{cursor:'pointer'}} className='ticker'>
+              <CardContent sx={{ cursor: 'pointer' }} className='ticker'>
                 <Typography variant='h5' component='div'>
                   {val.ticker}
                 </Typography>
@@ -78,26 +41,6 @@ const ListItems: FC<DataList> = ({
           <div>No Match Found</div>
         )}
       </InfiniteScroll>
-      {
-        <Box alignContent='center' className={classes.container}>
-          {current_page != 0 && (
-            <Box className={classes.prevBox}>
-              <Button onClick={handlePreviousPage} variant='contained'>
-                <ArrowBack />
-                Previous
-              </Button>
-            </Box>
-          )}
-          {next_url && next_url.length > 0 && (
-            <Box className={classes.nextBox}>
-              <Button onClick={handleNextPage} variant='contained' className='NextBtn'>
-                Next
-                <ArrowForward />
-              </Button>
-            </Box>
-          )}
-        </Box>
-      }
     </Box>
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAppState } from '@lib/store'
-import { Card, Container, Typography, CardContent, CardHeader, Avatar, Box, Button, CardActions } from '@mui/material'
+import { Card, Container, Typography, CardContent, CardHeader, Avatar, Box, Button } from '@mui/material'
 import theme from '@lib/styles/mui_theme'
 import useStyles from './style'
 
@@ -8,7 +8,6 @@ const StockDetailsComponent = () => {
   const classes = useStyles()
   const { branding, ticker, description, name, sic_description, homepage_url } = useAppState().stockDetails
   const { c, h, l, o } = useAppState().previousClose
-  const details : string[] = ['Close', 'Hight', 'Low', 'Open']
   return (
     <Container>
       {branding.logo_url && (

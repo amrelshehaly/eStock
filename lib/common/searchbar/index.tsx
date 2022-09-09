@@ -19,7 +19,6 @@ const SearchBar: FC<Props> = ({ setSearch, onSubmit, search }) => {
     (event) => {
       const { value } = event.target
       const newValue = formatLetters(value)
-      console.log(newValue)
       if (newValue || search) setSearch(newValue)
       else {
         if (value.length === 0) {

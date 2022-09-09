@@ -4,7 +4,6 @@ import { PreviousClose, StockDetails } from '@lib/models/stockdetails.interface'
 
 
 export const getTickerDetails = async ({ state, actions, effects }: IAppContext, ticker: string) => {
-    actions.base.ToggleLoading()
     await  effects.StockDetails.api.getTickerDetails(ticker)
     .then(async (res) => {
       const results: StockDetails | undefined = R.path(['results'], res)
@@ -18,18 +17,14 @@ export const getTickerDetails = async ({ state, actions, effects }: IAppContext,
           await actions.StockDetails.getImageURL(results.branding?.logo_url as string)
         }
       }
-
-      await actions.base.ToggleLoading()
-
     })
     .catch((err) => {
-      actions.base.ToggleLoading()
       state.base.error = err.response.data.error
+      throw new Error(err);
     })
 }
 
 export const getPreviousClose = async ({ state, actions, effects }: IAppContext, ticker: string) => {
-    actions.base.ToggleLoading()
     await effects.StockDetails.api.getPreviousClose(ticker)
     .then((res) => {
       const results: PreviousClose | undefined = R.path(['results', '0'], res)
@@ -39,12 +34,10 @@ export const getPreviousClose = async ({ state, actions, effects }: IAppContext,
         state.previousClose.h = results.h
         state.previousClose.o = results.o
       }
-      actions.base.ToggleLoading()
     })
     .catch((err) => {
-      actions.base.ToggleLoading()
       state.base.error = err.response.data.error
-      console.error(err)
+      throw new Error(err);
     })
 }
 
@@ -66,6 +59,7 @@ export const ClearPreviousClose = async ({ state }: IAppContext) => {
 }
 
 export const ShowAllDetails = async ({ state, actions }: IAppContext, ticker: string) => {
+  actions.base.ToggleLoading()
   try {
     await actions.base.ResetErrorMsg()
     await actions.StockDetails.ClearPreviousClose()
@@ -74,25 +68,22 @@ export const ShowAllDetails = async ({ state, actions }: IAppContext, ticker: st
     await actions.StockDetails.getPreviousClose(ticker)
     if (state.base.error.length == 0) {
       await actions.base.ChangePageValue()
+      actions.base.ToggleLoading()
     }
   } catch (error) {
-    console.error(error)
+    console.error("this is an error",error)
+    actions.base.ToggleLoading()
   }
 }
 
 export const getImageURL = async ({ state, actions, effects }: IAppContext, url: string) => {
-  actions.base.ToggleLoading()
-    
     await effects.StockDetails.api.getTickerPicture(url)
     .then((res) => {
       const data = `data:${res.headers['content-type']};base64,${new Buffer(res.data, 'binary').toString('base64')}`
-      // StockDetailsState.branding.icon_url = data
       state.stockDetails.branding.logo_url = data
-      actions.base.ToggleLoading()
     })
     .catch((err) => {
-      actions.base.ToggleLoading()
       state.base.error = err.response.data.error
-      console.error(err)
+      throw new Error(err);
     })
 }
