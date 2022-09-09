@@ -7,11 +7,11 @@ const headers = {
 
 export const api = {
     getTickers: async (): Promise<Stock> => {
-        const response = await axios.get<Stock>(`${process.env.NEXT_PUBLIC_GETALLSTOCKS}`, { headers })
+        const response = await axios.get<Stock>(`${process.env.NEXT_PUBLIC_DOMAIN}/v3/reference/tickers?active=true&sort=ticker&limit=8`, { headers })
         return response.data
     },
     searchForTicker: async (search:string) : Promise<Stock> => {
-        const response = await axios.get<Stock>(`${process.env.NEXT_PUBLIC_GETALLSTOCKS}&search=${search}`,{ headers })
+        const response = await axios.get<Stock>(`${process.env.NEXT_PUBLIC_DOMAIN}/v3/reference/tickers?active=true&sort=ticker&limit=8&search=${search}`,{ headers })
         return response.data
     },
     getNextItems : async (nextUrl:string) : Promise<Stock> => {

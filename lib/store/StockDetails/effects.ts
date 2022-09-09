@@ -5,11 +5,11 @@ const headers = {
 }
 export const api = {
   getTickerDetails: async (ticker: string): Promise<StockDetails> => {
-    const response = await axios.get<StockDetails>(`https://api.polygon.io/v3/reference/tickers/${ticker}`, { headers })
+    const response = await axios.get<StockDetails>(`${process.env.NEXT_PUBLIC_DOMAIN}/v3/reference/tickers/${ticker}`, { headers })
     return response.data
   },
   getPreviousClose: async (ticker: string): Promise<PreviousClose> => {
-    const response = await axios.get<PreviousClose>(`https://api.polygon.io/v2/aggs/ticker/${ticker}/prev`, { headers })
+    const response = await axios.get<PreviousClose>(`${process.env.NEXT_PUBLIC_DOMAIN}/v2/aggs/ticker/${ticker}/prev`, { headers })
     return response.data
   },
   getTickerPicture: async (url:string): Promise<any> => {
