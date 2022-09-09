@@ -3,7 +3,7 @@ import * as R from 'ramda'
 import { PreviousClose, StockDetails } from '@lib/models/stockdetails.interface'
 
 
-export const getTickerDetails = async ({ state, actions, effects }: IAppContext, ticker: string) => {
+export const getTickerDetails = async ({ state, actions, effects }: IAppContext, ticker: string) => {  // This method is triggered to get the ticker details, after user select one of the tickers
     await  effects.StockDetails.api.getTickerDetails(ticker)
     .then(async (res) => {
       const results: StockDetails | undefined = R.path(['results'], res)
@@ -24,7 +24,7 @@ export const getTickerDetails = async ({ state, actions, effects }: IAppContext,
     })
 }
 
-export const getPreviousClose = async ({ state, actions, effects }: IAppContext, ticker: string) => {
+export const getPreviousClose = async ({ state, actions, effects }: IAppContext, ticker: string) => { // This method retrieves the previous close details for a specefic ticker
     await effects.StockDetails.api.getPreviousClose(ticker)
     .then((res) => {
       const results: PreviousClose | undefined = R.path(['results', '0'], res)
@@ -41,7 +41,7 @@ export const getPreviousClose = async ({ state, actions, effects }: IAppContext,
     })
 }
 
-export const ClearStockDetails = ({ state }: IAppContext) => {
+export const ClearStockDetails = ({ state }: IAppContext) => { // This method clears the StockDetaild state, in order to make a fresh new request
   state.stockDetails.name = ''
   state.stockDetails.description = ''
   state.stockDetails.sic_description = ''
@@ -51,14 +51,14 @@ export const ClearStockDetails = ({ state }: IAppContext) => {
   state.stockDetails.branding.logo_url = ''
 }
 
-export const ClearPreviousClose = async ({ state }: IAppContext) => {
+export const ClearPreviousClose = async ({ state }: IAppContext) => { // This method clears the StockPreviosClose state, in order to make a fresh new request
   state.previousClose.c = 0
   state.previousClose.h = 0
   state.previousClose.l = 0
   state.previousClose.o = 0
 }
 
-export const ShowAllDetails = async ({ state, actions }: IAppContext, ticker: string) => {
+export const ShowAllDetails = async ({ state, actions }: IAppContext, ticker: string) => { // This method is triggered when the user selects a ticker from the list of tickers in the home page
   actions.base.ToggleLoading()
   try {
     await actions.base.ResetErrorMsg()
@@ -76,7 +76,8 @@ export const ShowAllDetails = async ({ state, actions }: IAppContext, ticker: st
   }
 }
 
-export const getImageURL = async ({ state, actions, effects }: IAppContext, url: string) => {
+export const getImageURL = async ({ state, actions, effects }: IAppContext, url: string) => { // This method retrieves the url of the logo of the comapny and buffer the image to make it readable for the 
+                                                                                              // Image src in next/Image
     await effects.StockDetails.api.getTickerPicture(url)
     .then((res) => {
       const data = `data:${res.headers['content-type']};base64,${new Buffer(res.data, 'binary').toString('base64')}`

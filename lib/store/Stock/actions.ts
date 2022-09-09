@@ -1,7 +1,7 @@
 import { IAppContext } from '@lib/store'
 import { Stock } from '@lib/models/stock.interface'
 
-export const GetAllStocks = async ({ state, actions, effects }: IAppContext) => {
+export const GetAllStocks = async ({ state, actions, effects }: IAppContext) => { // this method gets all stocks from the api 
   actions.base.ToggleLoading()
    
     await effects.Stock.api.getTickers()
@@ -18,7 +18,7 @@ export const GetAllStocks = async ({ state, actions, effects }: IAppContext) => 
     })
 }
 
-export const SearchForStock = async ({ state, actions, effects }: IAppContext) => {
+export const SearchForStock = async ({ state, actions, effects }: IAppContext) => { // This method is called to  search for a specefic ticker from the inputField
   if (state.base.search.length > 0) {
       actions.base.ToggleLoading()
       await effects.Stock.api.searchForTicker(state.base.search)
@@ -43,7 +43,8 @@ export const SearchForStock = async ({ state, actions, effects }: IAppContext) =
   }
 }
 
-export const LoadMoreStocks = async ({ state, actions, effects }: IAppContext) => {
+export const LoadMoreStocks = async ({ state, actions, effects }: IAppContext) => { // This method is triggered when user wishes to load more tickers from the BE, 
+                                                                                    // as it reterns 8 by 8 tickers 
   actions.base.ToggleLoading()
    
     await effects.Stock.api.getNextItems(state.stock.next_url)
@@ -67,7 +68,8 @@ export const LoadMoreStocks = async ({ state, actions, effects }: IAppContext) =
     })
 }
 
-export const SetArrayConcat = async ({ state }: IAppContext, value: Stock) => {
+export const SetArrayConcat = async ({ state }: IAppContext, value: Stock) => {  // This method is used to fetch the new results in the results state and 
+                                                                                  //concatenate the previous results into the memory state
   state.stock.next_url = value.next_url
   if (state.stock.results.length < 16) {
     state.stock.results = state.stock.results.concat(value.results)
