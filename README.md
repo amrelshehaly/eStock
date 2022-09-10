@@ -33,6 +33,6 @@ To run tests, run the following command
 ## Tech Stack
 
 
-**Libraries:** Next.js, MUI, Cypress, Jest
+**Libraries:** Next.js, MUI, Cypress, Jest and Overmind
 
 
