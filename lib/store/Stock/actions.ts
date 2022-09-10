@@ -38,15 +38,15 @@ export const SearchForStock = async ({ state, actions, effects }: IAppContext) =
           console.error(err)
           return () => clearTimeout(timer)   
       })
-  } else {
-    state.base.startSearching = false
   }
 }
 
 export const LoadMoreStocks = async ({ state, actions, effects }: IAppContext) => { // This method is triggered when user wishes to load more tickers from the BE, 
                                                                                     // as it reterns 8 by 8 tickers 
-  actions.base.ToggleLoading()
-   
+
+  if(state?.stock?.next_url?.length > 0){
+    actions.base.ToggleLoading()
+
     await effects.Stock.api.getNextItems(state.stock.next_url)
     .then((res) => {
       if (res) {
@@ -66,6 +66,7 @@ export const LoadMoreStocks = async ({ state, actions, effects }: IAppContext) =
 
       return () => clearTimeout(timer)   
     })
+  }
 }
 
 export const SetArrayConcat = async ({ state }: IAppContext, value: Stock) => {  // This method is used to fetch the new results in the results state and 
