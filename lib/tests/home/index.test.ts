@@ -1,4 +1,5 @@
-import "@testing-library/jest-dom";
+import "@testing-library/jest-dom"
+import '@testing-library/jest-dom/extend-expect'
 import { createOvermindMock } from 'overmind'
 import { storeConfig } from '../../store/index'
 import { Stock } from '@lib/models/stock.interface'

@@ -1,27 +1,16 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "isolatedModules": true,
+    "isolatedModules": false,
     "paths": {
-      "@lib/*": [
-        "lib/*"
-      ],
-      "@pages/*": [
-        "pages/*"
-      ]
+      "@lib/*": ["lib/*"],
+      "@pages/*": ["pages/*"]
     },
     "target": "esnext",
     "module": "esnext",
     "jsx": "preserve",
-    "types": [
-      "cypress",
-      "node",
-      "jest"
-    ],
-    "lib": [
-      "dom",
-      "es2017"
-    ],
+    "types": ["cypress", "node", "jest"],
+    "lib": ["dom", "es2017"],
     "moduleResolution": "node",
     "allowJs": true,
     "noEmit": true,
@@ -31,18 +20,8 @@
     "sourceMap": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
   },
-  "exclude": [
-    "node_modules",
-    "**/*.config.ts",
-    "**/*.setup.ts"
-  ],
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "src",
-    "./cypress.d.ts"
-  ]
+  "exclude": ["node_modules", "**/*.config.ts", "**/*.setup.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src","./cypress.d.ts"]
 }
