@@ -22,7 +22,6 @@ export const state: Props = {
     memory: [],
     page: 'Home',
     search: '',
-    startSearching: false,
   },
   stock: {
     next_url: '',

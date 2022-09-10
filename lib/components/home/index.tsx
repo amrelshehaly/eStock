@@ -8,15 +8,16 @@ import { ArrowBack, ArrowForward } from '@mui/icons-material'
 
 const DashboardModule = () => {
   const classes = useStyle()
-  const { count, currentPage, startSearching, search } = useAppState().base
+  const { count, currentPage, search } = useAppState().base
   const { results, next_url } = useAppState().stock
-  const { NextPage, ChangeStartSearching, PrevPage, SetSearching } = useActions().base
+  const { NextPage, PrevPage, SetSearching, ClearResults } = useActions().base
   const { ShowAllDetails } = useActions().StockDetails
   const { LoadMoreStocks, SearchForStock } = useActions().Stock
 
   const handleOnSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      ChangeStartSearching()
+      ClearResults()
+      SearchForStock()
     }
   }
 
@@ -37,7 +38,7 @@ const DashboardModule = () => {
         <ListItems
           setTicker={ShowAllDetails}
           results={results}
-          LoadMore={startSearching ? SearchForStock : LoadMoreStocks}
+          LoadMore={LoadMoreStocks}
         />
       </Box>
       <Box alignContent='center' className={classes.pagination}>

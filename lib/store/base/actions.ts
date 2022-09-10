@@ -16,6 +16,7 @@ export const onInitializeOvermind = async ({state, effects }: IAppContext) => {
 
 export const ClearResults = async ({ state }: IAppContext) => {   // clearing the results to make a fresh new request with no params in the state
   state.stock.results = []
+  state.stock.next_url = ''
   state.base.memory = []
   state.base.count = 0
   state.base.currentPage = 0
@@ -49,21 +50,11 @@ export const PrevPage = ({ state }: IAppContext) => {  // this method  slices th
   }
 }
 
-export const ChangeStartSearching = async ({ state, actions }: IAppContext) => {  // This action is triggered when the user press Enter, in order to fetch the ticker in the searchbar
-  if (state.base.search.length > 0) {
-    state.base.startSearching = true
-    await actions.base.ClearResults()
-    await actions.Stock.SearchForStock()
-  } else {
-    state.base.startSearching = false
-  }
-}
 
 export const SetSearching = async ({ state, actions }: IAppContext, value = '') => { // This method is triggered when the user make changes in the textfield
   state.base.search = value
-  if (state.base.startSearching == true && state.base.search.length == 0) {   // If the user is removing ticker search till its blank, this method will call GetAllStocks to retrieve 
+  if (value.length == 0) {                                                    // If the user is removing ticker search till its blank, this method will call GetAllStocks to retrieve 
                                                                               // the tickers from the beginning
-    state.base.startSearching = false
     state.base.search = ''
     await actions.base.ClearResults()
     await actions.Stock.GetAllStocks()

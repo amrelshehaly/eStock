@@ -9,7 +9,6 @@ export type base = {
   memory: any[]
   currentPage: number
   search: string
-  startSearching: boolean
   page: string
   loading: boolean
   error: string
