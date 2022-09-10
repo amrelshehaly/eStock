@@ -4,7 +4,7 @@ describe('searching for ticker', async () => {
     })
   
     it('Should get the value searched for in search field', async () => {
-      cy.wait(5000)
+      cy.wait(15000)
       cy.scrollTo(0, 0)
       cy.get('.inputField')
         .type('AAPL')

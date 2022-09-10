@@ -4,6 +4,7 @@ import { createOvermind, createOvermindSSR, rehydrate, Overmind } from 'overmind
 import { Provider } from 'overmind-react'
 import { IAppContext, storeConfig } from '@lib/store'
 import { MuiThemeProvider, CssBaseline } from '@material-ui/core'
+import SplashScreen from '@lib/components/splash'
 
 import theme from '../lib/styles/mui_theme'
 
@@ -49,8 +50,10 @@ class MyApp extends App {
     return (
       <Provider value={this.overmind}>
         <MuiThemeProvider theme={theme}>
-          <CssBaseline />
-          <Component {...props} />
+          <SplashScreen>
+            <CssBaseline />
+            <Component {...props} />
+          </SplashScreen>
         </MuiThemeProvider>
       </Provider>
     )
