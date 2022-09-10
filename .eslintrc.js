@@ -3,12 +3,14 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    jest:true,
   },
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
     'prettier',
+    'plugin:jest/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -18,7 +20,7 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: 'module',
   },
-  plugins: ['react', '@typescript-eslint'],
+  plugins: ['react', '@typescript-eslint', 'jest'],
   rules: {
     indent: ['error', 2],
     quotes: ['error', 'single'],

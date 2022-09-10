@@ -11,6 +11,7 @@ const index = () => {
   const { ResetErrorMsg } = useActions().base
   return (
     <>
+
       <Header />
       {page == 'Home' ? <Home /> : <StockDetails />}
       <Loading show={loading} />

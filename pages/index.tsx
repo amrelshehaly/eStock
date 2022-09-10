@@ -7,15 +7,7 @@ import Main from '@lib/components'
 export const getStaticProps: GetStaticProps = async () => {
   const overmind = createOvermindSSR(storeConfig)
 
-  await overmind.actions.base
-    .onInitializeOvermind()
-    .then((res) => {
-      overmind.state.stock.results = res.data.results
-      overmind.state.stock.next_url = res.data.next_url
-    })
-    .catch((err) => {
-      console.error(err)
-    })
+  await overmind.actions.base.onInitializeOvermind()
 
   return {
     props: { mutations: overmind.hydrate() },

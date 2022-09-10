@@ -1,18 +1,12 @@
 import { IAppContext } from '@lib/store'
-import axios from 'axios'
 import * as R from 'ramda'
 import { PreviousClose, StockDetails } from '@lib/models/stockdetails.interface'
 
-const headers = {
-  Authorization: `Bearer ${process.env.NEXT_PUBLIC_APIKEY}`,
-}
 
-export const getTickerDetails = async ({ state, actions }: IAppContext, ticker: string) => {
-  actions.base.ToggleLoading()
-  await axios
-    .get<StockDetails>(`https://api.polygon.io/v3/reference/tickers/${ticker}`, { headers })
-    .then(async ({ data }) => {
-      const results: StockDetails | undefined = R.path(['results'], data)
+export const getTickerDetails = async ({ state, actions, effects }: IAppContext, ticker: string) => {  // This method is triggered to get the ticker details, after user select one of the tickers
+    await  effects.StockDetails.api.getTickerDetails(ticker)
+    .then(async (res) => {
+      const results: StockDetails | undefined = R.path(['results'], res)
       if (results) {
         state.stockDetails.ticker = results.ticker
         state.stockDetails.name = results.name
@@ -23,38 +17,31 @@ export const getTickerDetails = async ({ state, actions }: IAppContext, ticker: 
           await actions.StockDetails.getImageURL(results.branding?.logo_url as string)
         }
       }
-
-      await actions.base.ToggleLoading()
-
     })
     .catch((err) => {
-      actions.base.ToggleLoading()
       state.base.error = err.response.data.error
+      throw new Error(err);
     })
 }
 
-export const getPreviousClose = async ({ state, actions }: IAppContext, ticker: string) => {
-  actions.base.ToggleLoading()
-  await axios
-    .get<PreviousClose>(`https://api.polygon.io/v2/aggs/ticker/${ticker}/prev`, { headers })
-    .then(({ data }) => {
-      const results: PreviousClose | undefined = R.path(['results', '0'], data)
+export const getPreviousClose = async ({ state, actions, effects }: IAppContext, ticker: string) => { // This method retrieves the previous close details for a specefic ticker
+    await effects.StockDetails.api.getPreviousClose(ticker)
+    .then((res) => {
+      const results: PreviousClose | undefined = R.path(['results', '0'], res)
       if (results) {
         state.previousClose.c = results.c
         state.previousClose.l = results.l
         state.previousClose.h = results.h
         state.previousClose.o = results.o
       }
-      actions.base.ToggleLoading()
     })
     .catch((err) => {
-      actions.base.ToggleLoading()
       state.base.error = err.response.data.error
-      console.error(err)
+      throw new Error(err);
     })
 }
 
-export const ClearStockDetails = ({ state }: IAppContext) => {
+export const ClearStockDetails = ({ state }: IAppContext) => { // This method clears the StockDetaild state, in order to make a fresh new request
   state.stockDetails.name = ''
   state.stockDetails.description = ''
   state.stockDetails.sic_description = ''
@@ -64,14 +51,15 @@ export const ClearStockDetails = ({ state }: IAppContext) => {
   state.stockDetails.branding.logo_url = ''
 }
 
-export const ClearPreviousClose = async ({ state }: IAppContext) => {
+export const ClearPreviousClose = async ({ state }: IAppContext) => { // This method clears the StockPreviosClose state, in order to make a fresh new request
   state.previousClose.c = 0
   state.previousClose.h = 0
   state.previousClose.l = 0
   state.previousClose.o = 0
 }
 
-export const ShowAllDetails = async ({ state, actions }: IAppContext, ticker: string) => {
+export const ShowAllDetails = async ({ state, actions }: IAppContext, ticker: string) => { // This method is triggered when the user selects a ticker from the list of tickers in the home page
+  actions.base.ToggleLoading()
   try {
     await actions.base.ResetErrorMsg()
     await actions.StockDetails.ClearPreviousClose()
@@ -80,28 +68,23 @@ export const ShowAllDetails = async ({ state, actions }: IAppContext, ticker: st
     await actions.StockDetails.getPreviousClose(ticker)
     if (state.base.error.length == 0) {
       await actions.base.ChangePageValue()
+      actions.base.ToggleLoading()
     }
   } catch (error) {
-    console.error(error)
+    console.error("this is an error",error)
+    actions.base.ToggleLoading()
   }
 }
 
-export const getImageURL = async ({ state, actions }: IAppContext, url: string) => {
-  actions.base.ToggleLoading()
-  await axios
-    .get(`${url}`, {
-      headers,
-      responseType: 'arraybuffer',
-    })
+export const getImageURL = async ({ state, actions, effects }: IAppContext, url: string) => { // This method retrieves the url of the logo of the comapny and buffer the image to make it readable for the 
+                                                                                              // Image src in next/Image
+    await effects.StockDetails.api.getTickerPicture(url)
     .then((res) => {
       const data = `data:${res.headers['content-type']};base64,${new Buffer(res.data, 'binary').toString('base64')}`
-      // StockDetailsState.branding.icon_url = data
       state.stockDetails.branding.logo_url = data
-      actions.base.ToggleLoading()
     })
     .catch((err) => {
-      actions.base.ToggleLoading()
       state.base.error = err.response.data.error
-      console.error(err)
+      throw new Error(err);
     })
 }

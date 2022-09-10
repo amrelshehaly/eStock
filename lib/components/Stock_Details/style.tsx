@@ -20,12 +20,13 @@ export const useStyles = makeStyles((theme: Theme) => ({
     marginTop: '20px',
     marginBottom: '20px',
     '& img': {
+      maxWidth: '300px',
       [theme.breakpoints.down('sm')]: {
-        width: '100%',
+        maxWidth: '200px',
       },
-      [theme.breakpoints.up('md')]: {
-        maxWidth: '300px',
-      },
+      // [theme.breakpoints.up('md')]: {
+      //   maxWidth: '300px',
+      // },
     },
   },
   CardDescription: {
@@ -59,6 +60,15 @@ export const useStyles = makeStyles((theme: Theme) => ({
         color: 'GrayText',
       },
     },
+  },
+  website: {
+    width: '170px',
+    height: '30px',
+    textTransform: 'capitalize',
+    background: '#00d5a1b3',
+    fontWeight: 700,
+    color: 'white',
+    cursor:'pointer'
   },
 }))
 

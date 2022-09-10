@@ -13,7 +13,7 @@ const Header = () => {
     <div className={classes.containers}>
       <Typography className={classes.header}>
         {page != 'Home' && (
-          <IconButton aria-label='back' onClick={() => ChangePageValue()}>
+          <IconButton aria-label='back' onClick={() => ChangePageValue()} className='backBtn'>
             <ArrowBack sx={{ color: 'white' }} />
           </IconButton>
         )}
